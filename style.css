@@ -1,0 +1,72 @@
+@import url(./reboot.css);
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3&display=swap');
+
+:root{
+	--bg-color: #051321;
+	--border-color: #146EB0;
+	--text-main-color: #fff;
+	--text-second-color: #10578C;
+	--text-red-color: #FD5B69;
+	--text-green-color: #3EC27C;
+	--text-gray-color: #D0D1D2;
+
+	--main-font: 'Source Sans 3', sans-serif;
+}
+
+body{
+	background-color: var(--bg-color);
+	font-family: var(--main-font);
+	color: var(--text-main-color);
+}
+
+.text_green{
+	color: var(--text-green-color);
+}
+.text_red{
+	color: var(--text-red-color);
+}
+
+
+
+
+
+/* HEADER */
+
+
+.header{
+	display: flex;
+	align-items: center;
+}
+
+
+.header__analytics{
+	display: flex;
+	justify-content: space-between;
+	flex: 1 0 auto;
+	gap: 5px;
+}
+
+.header__analytics-title{
+	font-size: 12px;
+	color: var(--text-second-color);
+}
+
+.header__analytics-body{
+	margin-top: 3px;
+	font-size: 14px;
+}
+
+.header__changes{
+	display: flex;
+}
+
+.header__icons{
+	display: flex;
+	align-items: center;
+	gap: 50px;
+}
+
+.header__icon{
+	color: var(--text-gray-color);
+}
+
