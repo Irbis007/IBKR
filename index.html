@@ -5,7 +5,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>IBKR</title>
 	<link rel="stylesheet" href="./style.css">
-	<script src='./script.js'></script>
+	<script defer src='./script.js'></script>
+	<script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script defer src='./chart.js'></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"  />
 </head>
 <body>
@@ -15,48 +17,80 @@
 				<div class="header__analytics-title">S&P 500</div>
 				<div class="header__analytics-body">
 					<span class='header__analytics-value'>5,964.27</span>
-					<span class='header__analytics-calculate text_green'>+35.22 (+0.59%)</span>
+					<span class='header__analytics-calculate text_green'>
+						<span class="header__analytics-calculate__value">
+							+35.22 
+						</span>
+						(<span class="header__analytics-calculate__percent">+0.59</span>%)
+					</span>
 				</div>
 			</li>
 			<li class="header__analytics-item">
 				<div class="header__analytics-title">NASDAQ</div>
 				<div class="header__analytics-body">
 					<span class='header__analytics-value'>19,231.61</span>
-					<span class='header__analytics-calculate text_green'>+248.15 (+1.31%)</span>
+					<span class='header__analytics-calculate text_green'>
+						<span class="header__analytics-calculate__value">
+							+248.15
+						</span> 
+						(<span class="header__analytics-calculate__percent">+1.31</span>%)
+					</span>
 				</div>
 			</li>
 			<li class="header__analytics-item">
 				<div class="header__analytics-title">DOW 30</div>
 				<div class="header__analytics-body">
-					<span class='header__analytics-value'>43.721.63</span>
-					<span class='header__analytics-calculate text_red'>-8.30 (-0.02%)</span>
+					<span class='header__analytics-value'>43,721.63</span>
+					<span class='header__analytics-calculate text_red'>
+						<span class="header__analytics-calculate__value">
+							-8.30
+						</span>
+						(<span class="header__analytics-calculate__percent">-0.02</span>%)
+					</span>
 				</div>
 			</li>
 			<li class="header__analytics-item">
 				<div class="header__analytics-title">RUSSELL 200</div>
 				<div class="header__analytics-body">
 					<span class='header__analytics-value'>2,387.12</span>
-					<span class='header__analytics-calculate text_red'>-5.80 (-0.24%)</span>
+					<span class='header__analytics-calculate text_green'>
+						<span class="header__analytics-calculate__value">
+							-5.80
+						</span>
+						(<span class="header__analytics-calculate__percent">-0.24</span>%)
+					</span>
 				</div>
 			</li>
 			<li class="header__analytics-item">
 				<div class="header__analytics-title">CRUDE OIL</div>
 				<div class="header__analytics-body">
 					<span class='header__analytics-value'>72.71</span>
-					<span class='header__analytics-calculate  text_green'>+1.02 (+1.42%)</span>
+					<span class='header__analytics-calculate text_green'>
+						<span class="header__analytics-calculate__value">
+							+1.02
+						</span>
+						(<span class="header__analytics-calculate__percent">+1.42</span>%)
+					</span>
 				</div>
 			</li>
 			<li class="header__analytics-item">
 				<div class="header__analytics-title">GOLD</div>
 				<div class="header__analytics-body">
 					<span class='header__analytics-value'>2,703.60</span>
-					<span class='header__analytics-calculate  text_green'>+27.30 (+1.02%)</span>
+					<span class='header__analytics-calculate text_green'>
+						<span class='header__analytics-calculate__value'>+27.30</span>
+						(<span class="header__analytics-calculate__percent">+1.02</span>%)
+					</span>
 				</div>
 			</li>
 		</ul>
 		<div class="header__checked">
-			<div class=""><i class="fa-solid fa-up-long"></i></div>
-			<div class=""></div>
+			<div class="header__checked-content">
+				<img src="./images/arrow-up.svg" alt="arrow up"> 0
+			</div>
+			<div class="header__checked-content">
+				<img src="./images/check.svg" alt="check"> 1
+			</div>
 		</div>
 		<ul class="header__changes">
 			<li class="header__changes-item">
@@ -69,14 +103,510 @@
 			</li>
 		</u>
 		<div class="header__icons">
-			<div class="notification__icon header__icon"><i class="fa-solid fa-bell"></i></div>
-			<div class="user__icon header__icon"><i class="fa-solid fa-circle-user"></i></div>
+			<div class="notification__icon header__icon">
+				<img src="./images/din.svg" alt="notification">
+			</div>
+			<div class="user__icon header__icon">
+				<img src="images/user.svg" alt="user">
+			</div>
 		</div>
 	</header>
 	<main>
 		<div class="right">
+			<div class="cash__tab">
+				<div class="tab__buttons">
+					<div class="buttons__wrapper">
+						<button class="tab__button">Portfolio Snapshot</button>
+						<button class="tab__button">Unrealized P&L</button>
+						<button class="tab__button">Realized P&L</button>
+						<button class="tab__button">Lots</button>
+						<button class="tab__button">Trades</button>
+						<button class="tab__button">Orders</button>
+					</div>
+					<div class="tab__settings">
+						<img src="./images/tab-settings.svg" alt="tab setting">
+					</div>
+				</div>
+				<div class="tab__contents">
+					<div class="tab__content">
+						<table class="portfolio">
+							<thead>
+								<tr>
+									<th  class='portfolio__ticker' id='ticker'>Ticker</th>
+									<th  class='portfolio__position' id='position'>Position</th>
+									<th  class='portfolio__last' id='last'>Last</th>
+									<th  class='portfolio__change' id='changePercent'>Change % </th>
+									<th  class='portfolio__daily' id='dailyPL'>Daily P&L</th>
+									<th  class='portfolio__unrealized' id='unrealizedPL'>Unrealized P&L</th>
+									<th  class='portfolio__mkt' id='mktValue'>Mkt Value</th>
+								</tr>
+								<tr>
+									<td colspan='3'>MY PORTFOLIO</td>
+									<td>0.68</td>
+									<td>1,927.43</td>
+									<td>25,874.99</td>
+									<td>1,021,961.16</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>NVDA</td>
+									<td>137</td>
+									<td>451.23</td>
+									<td>1.63</td>
+									<td>532.18</td>
+									<td>22,643.51</td>
+									<td>61,740.31</td>
+								</tr>
+								<tr>
+									<td>MSFT</td>
+									<td>312</td>
+									<td>328.75</td>
+									<td>0.91</td>
+									<td>297.45</td>
+									<td>14,983.42</td>
+									<td>102,412.56</td>
+								</tr>
+								<tr>
+									<td>META</td>
+									<td>27</td>
+									<td>322.48</td>
+									<td>1.57</td>
+									<td>84.93</td>
+									<td>11,968.24</td>
+									<td>8,642.37</td>
+								</tr>
+								<tr>
+									<td>AMZN</td>
+									<td>97</td>
+									<td>131.57</td>
+									<td>2.43</td>
+									<td>241.88</td>
+									<td>7,145.38</td>
+									<td>12,762.88</td>
+								</tr>
+								<tr>
+									<td>GOOGL</td>
+									<td>204</td>
+									<td>2785.43</td>
+									<td>0.76</td>
+									<td>211.89</td>
+									<td>3,815.78</td>
+									<td>568,376.49</td>
+								</tr>
+								<tr>
+									<td>NFLX</td>
+									<td>118</td>
+									<td>492.66</td>
+									<td>-3.72</td>
+									<td>-438.50</td>
+									<td>-178.64</td>
+									<td>58,267.92</td>
+								</tr>
+								<tr>
+									<td>INTC</td>
+									<td>245</td>
+									<td>54.12</td>
+									<td>-1.24</td>
+									<td>-67.25</td>
+									<td>-693.85</td>
+									<td>13,256.76</td>
+								</tr>
+								<tr>
+									<td>ADBE</td>
+									<td>133</td>
+									<td>579.98</td>
+									<td>-2.38</td>
+									<td>-312.89</td>
+									<td>-1,076.33</td>
+									<td>77,832.41</td>
+								</tr>
+								<tr>
+									<td>AAPL</td>
+									<td>109</td>
+									<td>172.34</td>
+									<td>-0.49</td>
+									<td>-105.54</td>
+									<td>-4,472.13</td>
+									<td>17,512.48</td>
+								</tr>
+								<tr>
+									<td>TSLA</td>
+									<td>89</td>
+									<td>1104.56</td>
+									<td>-1.92</td>
+									<td>-574.1</td>
+									<td>-4,861.27</td>
+									<td>10,1156.98</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan='6'>CASH</td>
+									<td>$10,382.64</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+					<div class="tab__content">Unrealized P&L</div>
+					<div class="tab__content">Realized P&L</div>
+					<div class="tab__content">Lots</div>
+					<div class="tab__content">Trades</div>
+					<div class="tab__content">Orders</div>
+				</div>
+			</div>
+			<div class="trump__tab">
+				<div class="tab__buttons">
+					<div class="buttons__wrapper">
+						<button class="tab__button">Trump Movers</button>
+						<button class="tab__button">Healthcare Tech</button>
+						<button class="tab__button">AI Bets</button>
+					</div>
+					<div class="tab__settings">
+						<img src="./images/tab-settings.svg" alt="tab setting">
+					</div>
+				</div>
+				<div class="tab__contents">
+					<div class="tab__content">
+						<table class="trump-movers">
+							<thead>
+								<tr>
+									<th class='trump-movers__ticker' id='ticker'>Ticker</th>
+									<th class='trump-movers__price' id='price'>Price</th>
+									<th class='trump-movers__marker' id='marketCap'>Market Cap ($M)</th>
+									<th class='trump-movers__ratio' id='PERatio'>P/E Ratio</th>
+									<th class='trump-movers__change' id='changePercent'>Change %</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>DWAC</td>
+									<td>15.27</td>
+									<td>605.3</td>
+									<td>14.5</td>
+									<td>1.25%</td>
+								</tr>
+								<tr>
+									<td>RUM</td>
+									<td>1.48</td>
+									<td>102.7</td>
+									<td>22.1</td>
+									<td>0.69%</td>
+								</tr>
+								<tr>
+									<td>ZGYH</td>
+									<td>10.15</td>
+									<td>198.4</td>
+									<td>18.7</td>
+									<td>0.60%</td>
+								</tr>
+								<tr>
+									<td>BENE</td>
+									<td>0.52</td>
+									<td>47.9</td>
+									<td>43.3</td>
+									<td>0.53%</td>
+								</tr>
+								<tr>
+									<td>GROM</td>
+									<td>11.08</td>
+									<td>249.5</td>
+									<td>18.9</td>
+									<td>0.43%</td>
+								</tr>
+								<tr>
+									<td>CRKN</td>
+									<td>12.37</td>
+									<td>315.6</td>
+									<td>21.3</td>
+									<td>-0.30%</td>
+								</tr>
+								<tr>
+									<td>CFVI</td>
+									<td>988.7</td>
+									<td>10.4</td>
+									<td>10.4</td>
+									<td>-1.59%</td>
+								</tr>
+								<tr>
+									<td>PHUN</td>
+									<td>20.22</td>
+									<td>1195.3</td>
+									<td>15.2</td>
+									<td>-2.22%</td>
+								</tr>
+								<tr>
+									<td>MARK</td>
+									<td>0.83</td>
+									<td>31.2</td>
+									<td>27.3</td>
+									<td>-5.12%</td>
+								</tr>
+								<tr>
+									<td>FUN</td>
+									<td>0.27</td>
+									<td>9.8</td>
+									<td>33.8</td>
+									<td>-5.28%</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="tab__content">Healthcare Tech</div>
+					<div class="tab__content">AI Bets</div>
+				</div>
+			</div>
+			<div class="left__buttons">
+				<button class="left__button button__search">
+					<img src="./images/search.svg" alt="search icon">
+					<span>Search</span>
+				</button>
+				<button class="left__button button__filter">
+					<img src="./images/filter.svg" alt="filter icon">
+					<span>Screen</span>
+				</button>
+				<button class="left__button button__plus">
+					<img src="./images/plus.svg" alt="plus icon">
+					<span>Buy</span>
+				</button>
+				<button class="left__button button__minus">
+					<img src="./images/minus.svg" alt="minus icon">
+					<span>Sell</span>
+				</button>
+			</div>
+		</div>
+		<div class="content">
+			<div class="content__header">
+				<ul class="content__header-list">
+					<li class="content__header-item">
+						<h4 class="content__header-title">My Portfolio</h4>
+						<span class='content__header-value'>D1234567</span>
+					</li>
+					<li class="content__header-item">
+						<h4 class="content__header-title">Daily P&L</h4>
+						<span class='content__header-value text_green'>11,920.23 1.70%</span>
+					</li>
+					<li class="content__header-item">
+						<h4 class="content__header-title">Unrealized P&L</h4>
+						<span class='content__header-value text_green'>93,981.34</span>
+					</li>
+					<li class="content__header-item">
+						<h4 class="content__header-title">Realized P&L</h4>
+						<span class='content__header-value text_green'>28,385.21</span>
+					</li>
+					<li class="content__header-item">
+						<h4 class="content__header-title">Net Liquidation Value</h4>
+						<span class='content__header-value'>712.5k</span>
+					</li>
+					<li class="content__header-item">
+						<h4 class="content__header-title">Excess Liquidity</h4>
+						<span class='content__header-value'>616.7k</span>
+					</li>
+					<li class="content__header-item">
+						<h4 class="content__header-title">Net Liquidation Value</h4>
+						<span class='content__header-value'>712.5k</span>
+					</li>
+					<li class="content__header-item">
+						<h4 class="content__header-title">Maintenance Margin</h4>
+						<span class='content__header-value'>95.7k</span>
+					</li>
+					<li class="content__header-item">
+						<h4 class="content__header-title">Available Funds</h4>
+						<span class='content__header-value'>616.5k</span>
+					</li>
+				</ul>
+			</div>
+			<div class="canvas__tab">
+				<div class="tab__buttons">
+					<div class="buttons__wrapper">
+						<button class="tab__button">Market Value</button>
+						<button class="tab__button">Performance</button>
+					</div>
+				</div>
+				<div class="tab__contents">
+					<div class="tab__content">
+						<canvas class='chart__canvas' id='chart__canvas'>
+
+						</canvas>
+						<ul class="chart__ticks">
+							<li class='chart__tick'>JAN 2022</li>
+							<li class='chart__tick'>APR 2022</li>
+							<li class='chart__tick'>JUL 2022</li>
+							<li class='chart__tick'>OCT 2022</li>
+							<li class='chart__tick'>JAN 2023</li>
+							<li class='chart__tick'>APR 2023</li>
+							<li class='chart__tick'>JUL 2023</li>
+							<li class='chart__tick'>OCT 2023</li>
+							<li class='chart__tick'>JAN 2024</li>
+							<li class='chart__tick'>APR 2024</li>
+							<li class='chart__tick'>JUL 2024</li>
+						</ul>
+					</div>
+					<div class="tab__content">
+					</div>
+				</div>
+			</div>
 			
+			<div class="content__tabs">
+				<div class="content__tab summary__tab">
+					<div class="tab__buttons">
+						<div class="buttons__wrapper">
+							<button class="tab__button">Portfolio News Summary</button>
+							<button class="tab__button">Portfolio “Ask Me Anything”</button>
+						</div>
+						<div class="tab__settings">
+							<img src="./images/tab-settings.svg" alt="tab setting">
+						</div>
+					</div>
+					<div class="tabs__contents">
+						<div class="tab__content">
+							<h4 class="tab__content-title">Market Pulse</h4>
+							<p class="tab__content-description">
+								We’re seeing an all-out rally this morning. All major indexes hit new highs, riding off Trump’s re-election and what people are already calling the "Trump Trade." Dow’s up 3.57%, S&P 500 gained 2.53%, and Nasdaq’s also charging ahead at 2.95%. Treasury yields are spiking, and the dollar’s looking strong. This market confidence is telling us investors are ready to back U.S. assets, expecting economic growth with a possible deregulation push.
+							</p>
+							<h4 class="tab__content-title">Financial Stocks to Watch</h4>
+							<p class="tab__content-description">
+								Brokerage firms are having a standout day. Charles Schwab, Interactive Brokers, and others in the financial space are up significantly. It seems like investors are betting on a friendlier regulatory landscape, so it could be worth taking a closer look at any positions you have in financials, especially those benefiting from trading volume or a return of retail traders.
+							</p>
+							<h4 class="tab__content-title">Tech is Running Hot</h4>
+							<p class="tab__content-description">
+								Tech is up across the board. Tesla, Nvidia, and Google are leading the charge. Tesla’s been particularly strong, and Nvidia isn’t far behind. This sector is benefiting from the overall rally, but it also seems to be getting a bump from anticipation around tech-friendly policies. If you’re looking to ride some momentum, these are names to keep on your radar today.
+							</p>
+							<h4 class="tab__content-title">EV Sector Looking Promising</h4>
+							<p class="tab__content-description">
+								We’re seeing impressive movement in the EV stocks — Ford, GM, Tesla, Rivian — all performing well. The market seems to be speculating that the new administration might make changes around tariffs and production regulations, which could directly impact supply chain costs. It’s worth keeping an eye on this sector if you want to make a play around these policy changes.
+							</p>
+							<h4 class="tab__content-title">Beauty Stocks on the Rise</h4>
+							<p class="tab__content-description">
+								On the consumer side, e.l.f. Beauty had a big earnings beat and raised its annual outlook. The company mentioned it might raise prices due to tariffs, but demand seems to be holding strong. There’s been a noticeable jump in its stock price, so if you’re interested in consumer goods as a non-traditional growth angle, this could be worth a look.
+							</p>
+								<h4 class="tab__content-title">Big Picture Strategy</h4>
+							<p class="tab__content-description">
+								Short-term, there’s a lot of energy in the market. Some analysts are suggesting you reduce hedges and deploy more cash to take advantage of this rally. There’s a lot of optimism right now, so it could be a good moment to get more aggressive, especially in the tech and financial spaces.
+								Longer-term, EVs and consumer goods (like beauty and cosmetics) might be where you want to hold steady. Policies around tariffs and environmental regulations are going to affect these sectors, so they’re worth tracking closely as we get more clarity on the administration’s direction.
+							</p>
+						</div>
+						<div class="tab__content">Portfolio “Ask Me Anything”</div>
+					</div>
+				</div>
+				<div class="content__tab articles__tab">
+					<div class="tab__buttons">
+						<div class="buttons__wrapper">
+							<button class="tab__button">Portfolio News Articles</button>
+							<button class="tab__button">Portfolio Research</button>
+						</div>
+						<div class="tab__settings">
+							<img src="./images/tab-settings.svg" alt="tab setting">
+						</div>
+					</div>
+					<div class="tabs__contents">
+						<div class="tab__content">
+							<ul class="articles__tab-content">
+								<li class='articles__tab-item'>
+									<h4 class="articles__tab-title">Benzinga Crypto News</h4>
+									<p class='articles__tab-description'>
+										<span class='bold'>
+											Which Musk Company Will Propel Dogecoin's Future — X, Tesla, SpaceX Or The Boring Company?
+										</span>
+										Dogecoin (CRYPTO: DOGE) is soaring to new monthly highs, with Donald Trump winning the 2024 presidential election and Elon Musk likely playing a role in the president-elect's return to the White House.
+									</p>
+								</li>
+								<li class='articles__tab-item'>
+									<h4 class="articles__tab-title">Benzinga Crypto News</h4>
+									<p class='articles__tab-description'>
+										<span class='bold'>
+											Which Musk Company Will Propel Dogecoin's Future — X, Tesla, SpaceX Or The Boring Company?
+										</span>
+										Dogecoin (CRYPTO: DOGE) is soaring to new monthly highs, with Donald Trump winning the 2024 presidential election and Elon Musk likely playing a role in the president-elect's return to the White House.
+									</p>
+								</li>
+								<li class='articles__tab-item'>
+									<h4 class="articles__tab-title">Reuters News</h4>
+									<p class='articles__tab-description'>
+										<span class='bold'>
+											Qualcomm forecasts sales, profits above Wall Street estimates
+										</span>
+										By Stephen Nellis and Arsheeya Bajwa Nov 6 (Reuters) - Chip designer Qualcomm on Wednesday forecast sales and profit in the current quarter to come in above Wall Street estimates as the company tries to break into
+									</p>
+								</li>
+								<li class='articles__tab-item'>
+									<h4 class="articles__tab-title">Reuters News</h4>
+									<p class='articles__tab-description'>
+										<span class='bold'>
+											Qualcomm forecasts sales, profits above Wall Street estimates
+										</span>
+										By Stephen Nellis and Arsheeya Bajwa Nov 6 (Reuters) - Chip designer Qualcomm on Wednesday forecast sales and profit in the current quarter to come in above Wall Street estimates as the company tries to break into
+									</p>
+								</li>
+								<li class='articles__tab-item'>
+									<h4 class="articles__tab-title">Reuters News</h4>
+									<p class='articles__tab-description'>
+										<span class="bold">
+											How Musk's clout with Trump could enrich his companies
+										</span>
+										By Marisa Taylor, Rachael Levy and Chris Kirkham Nov 6 (Reuters) - Elon Musk’s backing of Donald Trump’s decisive victory for a second presidency puts the billionaire entrepreneur in an extraordinary position of
+									</p>
+								</li>
+								<li class='articles__tab-item'>
+									<h4 class="articles__tab-title">Reuters News</h4>
+									<p class='articles__tab-description'>
+										<span class="bold">
+											How Musk's clout with Trump could enrich his companies
+										</span>
+										By Marisa Taylor, Rachael Levy and Chris Kirkham Nov 6 (Reuters) - Elon Musk’s backing of Donald Trump’s decisive victory for a second presidency puts the billionaire entrepreneur in an extraordinary position of
+									</p>
+								</li>
+								<li class='articles__tab-item'>
+									<h4 class="articles__tab-title">Reuters News</h4>
+									<p class='articles__tab-description'>
+										<span class="bold">
+											Alibaba's AI Strategy: Massive Ad Spend to Dominate Crowded Market
+										</span>
+										Chinese artificial intelligence (AI) companies, including tech giants Alibaba Group Holding (NYSE:BABA) and ByteDance, are investing heavily in advertising to gain a foothold in the competitive AI market.
+									</p>
+								</li>
+								<li class='articles__tab-item'>
+									<h4 class="articles__tab-title">Reuters News</h4>
+									<p class='articles__tab-description'>
+										<span class="bold">
+											Alibaba's AI Strategy: Massive Ad Spend to Dominate Crowded Market
+										</span>
+										Chinese artificial intelligence (AI) companies, including tech giants Alibaba Group Holding (NYSE:BABA) and ByteDance, are investing heavily in advertising to gain a foothold in the competitive AI market.
+									</p>
+								</li>
+								<li class='articles__tab-item'>
+									<h4 class="articles__tab-title">Reuters News</h4>
+									<p class='articles__tab-description'>
+										<span class="bold">
+											Alibaba's AI Strategy: Massive Ad Spend to Dominate Crowded Market
+										</span>
+										Chinese artificial intelligence (AI) companies, including tech giants Alibaba Group Holding (NYSE:BABA) and ByteDance, are investing heavily in advertising to gain a foothold in the competitive AI market.
+									</p>
+								</li>
+								<li class='articles__tab-item'>
+									<h4 class="articles__tab-title">Reuters News</h4>
+									<p class='articles__tab-description'>
+										<span class="bold">
+											Alibaba's AI Strategy: Massive Ad Spend to Dominate Crowded Market
+										</span>
+										Chinese artificial intelligence (AI) companies, including tech giants Alibaba Group Holding (NYSE:BABA) and ByteDance, are investing heavily in advertising to gain a foothold in the competitive AI market.
+									</p>
+								</li>
+							</ul>
+						</div>
+						<div class="tab__content">Portfolio Research</div>
+					</div>
+				</div>
+			</div>
+			<div class=""></div>
 		</div>
 	</main>
+	<footer class='footer'>
+		<div class="footer__left">NORMAL OPERATIONS</div>
+		<div class="footer__right">
+			MARKET DATA POWERED BY <span>GFIS</span>
+		</div>
+	</footer>
+	
 </body>
 </html>

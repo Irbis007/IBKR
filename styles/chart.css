@@ -1,0 +1,22 @@
+
+
+.chart__canvas{
+	width: 100% !important;
+	height: unset !important;
+	aspect-ratio: 2.4/1;
+}
+
+.chart__ticks{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 14px;
+	padding: 0 66px 0 23px;
+}
+
+.chart__tick{
+	font-family: 'Proxima Nova', sans-serif;
+	font-size: 12px;
+	color: #146EB0;
+	text-align: center;
+}
