@@ -106,6 +106,15 @@
 	font-family: var(--secondary-font);
 }
 
+.filter__arrow{
+	padding-left: 4px;
+}
+
+.filter__arrow_active{
+	transform: rotate(180deg);
+	padding-right: 4px;
+}
+
 @media (max-width: 1600px) {
 	.content__header-list{
 		gap: 8px;

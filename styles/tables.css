@@ -10,6 +10,7 @@
 }
 
 :is(.portfolio, .trump-movers) th{
+
 	cursor: pointer;
 	user-select: none;
 	text-wrap: nowrap;

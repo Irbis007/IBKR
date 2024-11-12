@@ -272,17 +272,28 @@ class CreateFilteredTable {
 	orderPortfolio = (e) => {
 		if (e.target && e.target.id) {
 			this.selectOrd(e.target.id);
+
+
+
 			
 			switch (e.target.id) {
 				case 'ticker':
-					this.data = this.ordASC > 0 
-						? this.data.sort((a, b) => a.ticker.localeCompare(b.ticker))
-						: this.data.sort((a, b) => b.ticker.localeCompare(a.ticker));
+					if(this.ordASC > 0 ) {
+						e.target.innerHTML += '<img class="filter__arrow" src="./images/filter-arrow.svg"/>'
+						this.data = this.data.sort((a, b) => a.ticker.localeCompare(b.ticker))
+					} else {
+						e.target.innerHTML += '<img class="filter__arrow_active" src="./images/filter-arrow.svg" alt="filter icon"/>'
+						this.data = this.data.sort((a, b) => b.ticker.localeCompare(a.ticker));
+					}
 					break;
 				default:
-					this.data = this.ordASC > 0 
-						? this.data.sort((a, b) => a[e.target.id] - b[e.target.id])
-						: this.data.sort((a, b) => b[e.target.id] - a[e.target.id]);
+					if(this.ordASC > 0 ) {
+						e.target.innerHTML += '<img class="filter__arrow" src="./images/filter-arrow.svg"/>'
+						this.data = this.data.sort((a, b) => a[e.target.id] - b[e.target.id])
+					} else {
+						e.target.innerHTML += '<img class="filter__arrow_active" src="./images/filter-arrow.svg" alt="filter icon"/>'
+						this.data = this.data.sort((a, b) => b[e.target.id] - a[e.target.id]);
+					}
 			}
 			this.drawTable(this.data);
 		}
@@ -336,13 +347,28 @@ const portfolioTh = document.querySelectorAll('.portfolio th')
 const trumpMoversTh = document.querySelectorAll('.trump-movers th')
 
 trumpMoversTh.forEach((item) => {
-	item.addEventListener('click', createdTrumpMoversTable.orderPortfolio.bind(createdPortfolioTable))
+	item.addEventListener('click', (e) => {
+		removeImages(trumpMoversTh)
+		createdTrumpMoversTable.orderPortfolio(e)
+	})
 });
 portfolioTh.forEach((item) => {
-	item.addEventListener('click', createdPortfolioTable.orderPortfolio.bind(createdPortfolioTable));
+	item.addEventListener('click', (e) => {
+		removeImages(portfolioTh)
+		createdPortfolioTable.orderPortfolio(e)
+	});
 });
 
 
+
+function removeImages(list) {
+	list.forEach(item => {
+		const img = item.querySelector('img')
+		if(img){
+			img.remove()
+		}
+	})
+}
 
 function createRandomDigit() {
 	return Math.floor(Math.random() * 5) + 1;
