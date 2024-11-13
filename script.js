@@ -73,7 +73,8 @@ let portfolioData = [
 		dailyPL: 532.18,
 		unrealizedPL: 22874.99,
 		mktValue: 61740.31,
-		color: '#018740',
+		opacity: '1',
+		isNegative: false
 	},
 	{
 		ticker: 'MSFT',
@@ -83,7 +84,8 @@ let portfolioData = [
 		dailyPL: 297.45,
 		unrealizedPL: 14983.42,
 		mktValue: 102412.56,
-		color: '#05733A',
+		opacity: '1',
+		isNegative: false
 	},
 	{
 		ticker: 'META',
@@ -93,7 +95,8 @@ let portfolioData = [
 		dailyPL: 84.93,
 		unrealizedPL: 11968.24,
 		mktValue: 8642.37,
-		color: '#066C38',
+		opacity: '1',
+		isNegative: false
 	},
 	{
 		ticker: 'AMZN',
@@ -103,7 +106,8 @@ let portfolioData = [
 		dailyPL: 241.88,
 		unrealizedPL: 7145.38,
 		mktValue: 12762.88,
-		color: '#0B5431',
+		opacity: '1',
+		isNegative: false
 	},
 	{
 		ticker: 'GOOGL',
@@ -113,17 +117,8 @@ let portfolioData = [
 		dailyPL: 211.89,
 		unrealizedPL: 3815.78,
 		mktValue: 568376.49,
-		color: '#0F402B',
-	},
-	{
-		ticker: 'INTC',
-		position: 245,
-		last: 54.12,
-		changePercent: -1.24,
-		dailyPL: -67.25,
-		unrealizedPL: -693.85,
-		mktValue: 13256.76,
-		color: '#85131F',
+		opacity: '1',
+		isNegative: false
 	},
 	{
 		ticker: 'NFLX',
@@ -133,7 +128,19 @@ let portfolioData = [
 		dailyPL: -438.50,
 		unrealizedPL: -178.64,
 		mktValue: 13256.76,
-		color: '#76141F',
+		opacity: '1',
+		isNegative: true
+	},
+	{
+		ticker: 'INTC',
+		position: 245,
+		last: 54.12,
+		changePercent: -1.24,
+		dailyPL: -67.25,
+		unrealizedPL: -693.85,
+		mktValue: 13256.76,
+		opacity: '1',
+		isNegative: true
 	},
 	{
 		ticker: 'ADBE',
@@ -143,7 +150,8 @@ let portfolioData = [
 		dailyPL: -312.89,
 		unrealizedPL: -1076.33,
 		mktValue: 77832.41,
-		color: '#86131F',
+		opacity: '1',
+		isNegative: true
 	},
 	{
 		ticker: 'AAPL',
@@ -153,7 +161,8 @@ let portfolioData = [
 		dailyPL: -105.54,
 		unrealizedPL: -4472.13,
 		mktValue: 17512.48,
-		color: '#C50F1F',
+		opacity: '1',
+		isNegative: true
 	},
 	{
 		ticker: 'TSLA',
@@ -163,7 +172,8 @@ let portfolioData = [
 		dailyPL: -574.1,
 		unrealizedPL: -4861.27,
 		mktValue: 101156.98,
-		color: '#D80E1F',
+		opacity: '1',
+		isNegative: true
 	},
 ]
 
@@ -174,7 +184,8 @@ let trumpMoversData = [
 		marketCap: 605.3,
 		PERatio: 14.5,
 		changePercent: 1.25,
-		color: '#018740',
+		opacity: '1',
+		isNegative: false
 	},
 	{
 		ticker: 'RUM',
@@ -182,7 +193,8 @@ let trumpMoversData = [
 		marketCap: 102.7,
 		PERatio: 22.1,
 		changePercent: 0.69,
-		color: '#0A5631',
+		opacity: '1',
+		isNegative: false
 	},
 	{
 		ticker: 'ZGYH',
@@ -190,7 +202,8 @@ let trumpMoversData = [
 		marketCap: 198.4,
 		PERatio: 18.7,
 		changePercent: 0.60,
-		color: '#0C4E2F',
+		opacity: '1',
+		isNegative: false
 	},
 	{
 		ticker: 'BENE',
@@ -198,7 +211,8 @@ let trumpMoversData = [
 		marketCap: 47.9,
 		PERatio: 43.3,
 		changePercent: 0.53,
-		color: '#0D482D',
+		opacity: '1',
+		isNegative: false
 	},
 	{
 		ticker: 'GROM',
@@ -206,7 +220,8 @@ let trumpMoversData = [
 		marketCap: 249.5,
 		PERatio: 18.9,
 		changePercent: 0.43,
-		color: '#0F3F2A',
+		opacity: '1',
+		isNegative: false
 	},
 	{
 		ticker: 'CRKN',
@@ -214,7 +229,8 @@ let trumpMoversData = [
 		marketCap: 315.6,
 		PERatio: 21.3,
 		changePercent: 0.30,
-		color: '#113327',
+		opacity: '1',
+		isNegative: false
 	},
 	{
 		ticker: 'CFVI',
@@ -222,7 +238,8 @@ let trumpMoversData = [
 		marketCap: 988.7,
 		PERatio: 10.4,
 		changePercent: -1.59,
-		color: '#54161F',
+		opacity: '1',
+		isNegative: true
 	},
 	{
 		ticker: 'PHUN',
@@ -230,7 +247,8 @@ let trumpMoversData = [
 		marketCap: 1195.3,
 		PERatio: 15.2,
 		changePercent: -2.22,
-		color: '#6C141F',
+		opacity: '1',
+		isNegative: true
 	},
 	{
 		ticker: 'MARK',
@@ -238,7 +256,8 @@ let trumpMoversData = [
 		marketCap: 31.2,
 		PERatio: 27.3,
 		changePercent: -5.12,
-		color: '#D80E1F',
+		opacity: '1',
+		isNegative: true
 	},
 	{
 		ticker: 'FUN',
@@ -246,9 +265,12 @@ let trumpMoversData = [
 		marketCap: 9.8,
 		PERatio: 33.8,
 		changePercent: -5.28,
-		color: '#D80E1F',
+		opacity: '1',
+		isNegative: true
 	},
 ]
+
+
 
 
 class CreateFilteredTable {
@@ -269,6 +291,36 @@ class CreateFilteredTable {
 		}
 	};
 
+	updateData = (data, filterKey) => {
+		// Сортируем данные по фильтрующему ключу по убыванию (если больше 0) или по возрастанию (если меньше 0)
+		let positiveValues = data.filter(item => item[filterKey] >= 0);
+		let negativeValues = data.filter(item => item[filterKey] < 0);
+	
+		// Вычисляем минимальные и максимальные значения фильтрующего элемента
+		let maxPositive = Math.max(...positiveValues.map(item => item[filterKey]));
+		let minPositive = Math.min(...positiveValues.map(item => item[filterKey]));
+		let maxNegative = Math.max(...negativeValues.map(item => item[filterKey]));
+		let minNegative = Math.min(...negativeValues.map(item => item[filterKey]));
+	
+		function calculateOpacity(value, min, max) {
+			if (max === min) return 1; 
+			return 0.2 + (1 - 0.2) * (value - min) / (max - min);
+		}
+	
+		positiveValues.forEach(item => {
+			item.isNegative = false;
+			item.opacity = calculateOpacity(item[filterKey], minPositive, maxPositive);
+		});
+	
+		negativeValues.forEach(item => {
+			item.isNegative = true;
+			item.opacity = calculateOpacity(item[filterKey], maxNegative, minNegative);
+		});
+	
+		return [...positiveValues, ...negativeValues];
+	}
+	
+
 	orderPortfolio = (e) => {
 		if (e.target && e.target.id) {
 			this.selectOrd(e.target.id);
@@ -285,8 +337,12 @@ class CreateFilteredTable {
 						e.target.innerHTML += '<img class="filter__arrow_active" src="./images/filter-arrow.svg" alt="filter icon"/>'
 						this.data = this.data.sort((a, b) => b.ticker.localeCompare(a.ticker));
 					}
+					for(let i = 0; i < this.data.length ; i++){
+						this.data[i].opacity = 0
+					}
 					break;
 				default:
+					this.data = this.updateData(this.data, e.target.id)
 					if(this.ordASC > 0 ) {
 						e.target.innerHTML += '<img class="filter__arrow" src="./images/filter-arrow.svg"/>'
 						this.data = this.data.sort((a, b) => a[e.target.id] - b[e.target.id])
@@ -306,7 +362,7 @@ class CreateFilteredTable {
 				data.map(item => {
 					if(this.type == 'portfolio'){
 						return `
-							<tr style="background-color: ${item.color};">
+							<tr style="background-color: ${item.isNegative ? `rgba(216, 14, 31, ${item.opacity})` : `rgba(1, 135, 64, ${item.opacity})`};">
 								<td>${item.ticker}</td>
 								<td>${item.position}</td>
 								<td>${item.last}</td>
@@ -318,7 +374,7 @@ class CreateFilteredTable {
 						`;
 					} else {
 						return `
-							<tr style="background-color: ${item.color};">
+							<tr style="background-color: ${item.isNegative ? `rgba(216, 14, 31, ${item.opacity})` : `rgba(1, 135, 64, ${item.opacity})`};">
 								<td>${item.ticker}</td>
 								<td>${item.price}</td>
 								<td>${item.marketCap}</td>
@@ -334,10 +390,15 @@ class CreateFilteredTable {
 	}
 }
 
+
+
 const portfolioTableBody = document.querySelector('.portfolio tbody')
 const trumpMoversTableBody = document.querySelector('.trump-movers tbody')
 const createdPortfolioTable = new CreateFilteredTable(portfolioTableBody, portfolioData, 'portfolio')
 const createdTrumpMoversTable = new CreateFilteredTable(trumpMoversTableBody, trumpMoversData, 'trump-movers')
+
+portfolioData = createdPortfolioTable.updateData(portfolioData, 'unrealizedPL')
+trumpMoversData = createdTrumpMoversTable.updateData(trumpMoversData, 'changePercent')
 
 createdPortfolioTable.drawTable(portfolioData)
 createdTrumpMoversTable.drawTable(trumpMoversData)

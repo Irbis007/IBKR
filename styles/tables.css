@@ -51,7 +51,22 @@
 	border-bottom: 1px solid var(--border-color);
 }
 
+.filter__arrow{
+	transform: rotate(180deg);
+	padding-right: 4px;
+}
 
+.filter__arrow_active{
+	padding-left: 4px;
+}
+
+.portfolio tfoot tr{
+	border: none;
+}
+
+.portfolio{
+	border-bottom: 1px solid var(--border-color);
+}
 
 
 @media (max-width: 1310px) {
