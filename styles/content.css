@@ -8,7 +8,6 @@
 }
 
 .content__tabs{
-	max-height: calc(100vw * -0.2625 + 862.5px);
 	min-height: 300px;
 	display: flex;
 	border-top: 1px solid var(--border-color);
