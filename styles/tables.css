@@ -42,8 +42,8 @@
 
 }
 
-.table thead .thead_tr{
-	position: relative;
+.table thead .thead_tr{ 
+	transform: translate(0);
 	cursor: pointer;
 }
 
@@ -82,7 +82,7 @@
 }
 
 :is(.trump-movers, .healthcare, .ai__bets, .portfolio, .unrealized__PL, .realized__PL, .lots, .traders, .orders) tbody tr{
-	position: relative;
+	transform: translate(0);
 	cursor: pointer;
 	
 	background-clip: content-box;
