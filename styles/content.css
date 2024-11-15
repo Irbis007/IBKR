@@ -92,7 +92,9 @@
 }
 
 /* content header */
-
+.content__header{
+	flex-shrink: 0;
+}
 
 .content__header-list{
 	display: flex;
@@ -131,7 +133,7 @@
 @media (max-width: 1440px) {
 	.content__header{
 		width: 100%;
-		overflow-x: auto;
+		overflow-y: auto;
 	}
 	.content__header-list{
 		width: 900px;
