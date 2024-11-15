@@ -37,10 +37,15 @@
 .table tr{
 	border-bottom: 1px solid var(--bg-color);
 }
+.table{
+	/* background-clip: padding-box; */
+
+}
 
 .table thead .thead_tr{
 	position: relative;
 	cursor: pointer;
+	z-index: -1;
 }
 
 .table thead .row_active{
@@ -80,7 +85,8 @@
 :is(.trump-movers, .healthcare, .ai__bets, .portfolio, .unrealized__PL, .realized__PL, .lots, .traders, .orders) tbody tr{
 	position: relative;
 	cursor: pointer;
-	z-index: 10;
+	z-index: -1;
+	background-clip: content-box;
 }
 
 
