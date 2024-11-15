@@ -286,7 +286,7 @@ class CreateFilteredTable {
   }
 
 
-	// this function us
+	// this function utilized for check if table already filtered
   selectOrd = (id) => {
     if (id === this.ordField) {
       this.ordASC *= -1;
@@ -296,12 +296,12 @@ class CreateFilteredTable {
     }
   };
 
+
+	// this function utilized for filter table and add rows color  
   updateData = (data, filterKey) => {
-    // Сортируем данные по фильтрующему ключу по убыванию (если больше 0) или по возрастанию (если меньше 0)
     let positiveValues = data.filter((item) => item[filterKey] >= 0);
     let negativeValues = data.filter((item) => item[filterKey] < 0);
 
-    // Вычисляем минимальные и максимальные значения фильтрующего элемента
     let maxPositive = Math.max(
       ...positiveValues.map((item) => item[filterKey])
     );
@@ -341,6 +341,8 @@ class CreateFilteredTable {
     return [...positiveValues, ...negativeValues];
   };
 
+
+	// this function utilized for adding an events to table thead rows (hover and click)
 	addOnTheadTrEvent  = () => {
 
 		const thTr = document.querySelectorAll('.thead_tr')
@@ -349,6 +351,7 @@ class CreateFilteredTable {
 			row.addEventListener("click", () => {
 		
 				editMarketChart(createChartData(56, 65), createChartEvents(), 56, 65);
+				editPerformanceChart(createChartData(56, 65), createChartEvents(), 56, 65);
 				removeActive(cashTableTds, "row_active");
 				removeActive(trumpTableTds, "row_active");
 				row.classList.add("row_active");
@@ -356,6 +359,7 @@ class CreateFilteredTable {
 		})
 	}
 
+	// this function utilized for adding an events to table rows (hover and click)
   addEventOnTrs = () => {
     const trs = this.table.querySelectorAll("tr");
 
@@ -365,6 +369,7 @@ class CreateFilteredTable {
 
         row.addEventListener("click", () => {
           editMarketChart(createChartData(56, 65), createChartEvents(), 56, 65);
+          editPerformanceChart(createChartData(56, 65), createChartEvents(), 56, 65);
 					
           removeActive(document.querySelectorAll('.thead_tr'), "row_active");
 					removeActive(cashTableTds, "row_active");
@@ -377,6 +382,7 @@ class CreateFilteredTable {
         this.addEventOnTr(row);
         row.addEventListener("click", () => {
           editMarketChart(createChartData(56, 65), null, 56, 65);
+          editPerformanceChart(createChartData(56, 65), null, 56, 65);
           removeActive(document.querySelectorAll('.thead_tr'), "row_active");
 					removeActive(cashTableTds, "row_active");
 					removeActive(trumpTableTds, "row_active");
@@ -407,6 +413,7 @@ class CreateFilteredTable {
 		});
   }
 
+	// this function 
   orderPortfolio = (e) => {
     if (e.target && e.target.id) {
       this.selectOrd(e.target.id);

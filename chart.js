@@ -933,11 +933,18 @@ function editMarketChart(data, events, minY, maxY) {
   newMarketChart = new DrawChart(marketChart, marketChartCtx, data, events, minY, maxY , 'market')
   newMarketChart.drawCart()
 
+}
+
+
+function editPerformanceChart(data, events, minY, maxY) {
+
   newPerformanceChart.returnChart().destroy()
 
   newPerformanceChart = new DrawChart(performanceChart, performanceChartCtx, data, events, minY, maxY , 'market')
   newPerformanceChart.drawCart()
 }
+
+
 
 
 
