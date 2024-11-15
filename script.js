@@ -356,18 +356,24 @@ class CreateFilteredTable {
     return [...positiveValues, ...negativeValues];
   };
 
-  addEventOnTrs = () => {
-    const trs = this.table.querySelectorAll("tr");
-		const thtr = document.querySelectorAll('.thead_tr')
-		thtr.forEach(row => {
+	addOnTheadTrEvent  = () => {
+
+		const thTr = document.querySelectorAll('.thead_tr')
+		thTr.forEach(row => {
 			this.addEventOnTr(row);
 			row.addEventListener("click", () => {
+		
 				editMarketChart(createChartData(56, 65), createChartEvents(), 56, 65);
 				removeActive(cashTableTds, "row_active");
 				removeActive(trumpTableTds, "row_active");
 				row.classList.add("row_active");
 			});
 		})
+	}
+
+  addEventOnTrs = () => {
+    const trs = this.table.querySelectorAll("tr");
+
     if (this.type == "portfolio") {
       trs.forEach((row) => {
         this.addEventOnTr(row);
@@ -501,6 +507,11 @@ class CreateFilteredTable {
   }
 }
 
+const thTr = document.querySelectorAll('.thead_tr')
+
+
+
+
 
 const portfolioTableBody = document.querySelector(".portfolio tbody");
 const createdPortfolioTable = new CreateFilteredTable(
@@ -509,9 +520,12 @@ const createdPortfolioTable = new CreateFilteredTable(
   "portfolio"
 );
 
+
+
 portfolioData = createdPortfolioTable.updateData(portfolioData, "unrealizedPL");
 createdPortfolioTable.drawTable(portfolioData);
 createdPortfolioTable.addEventOnTrs()
+createdPortfolioTable.addOnTheadTrEvent()
 
 const portfolioTh = document.querySelectorAll(".portfolio th");
 

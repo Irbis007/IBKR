@@ -37,10 +37,6 @@
 .table tr{
 	border-bottom: 1px solid var(--bg-color);
 }
-.table{
-	/* background-clip: padding-box; */
-
-}
 
 .table thead .thead_tr{ 
 	transform: translate(0);
@@ -49,10 +45,14 @@
 }
 
 .table thead .row_active{
+	-webkit-appearance: none;
+	-webkit-box-shadow: inset 0 0 0 2px rgba(20, 110, 176, 1), 0 0 10px 4px #146EB033;
 	box-shadow: inset 0 0 0 2px rgba(20, 110, 176, 1), 0 0 10px 4px #146EB033;
 }
 
 .row_active{
+	-webkit-appearance: none;
+	-webkit-box-shadow: inset 0 0 0 2px rgba(20, 110, 176, 1), 0 0 10px 4px #146EB033;
 	box-shadow: inset 0 0 0 2px rgba(20, 110, 176, 1), 0 0 10px 4px #146EB033;
 }
 
@@ -94,9 +94,7 @@
 .hover-overlay {
 	display: none;
 	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
+	inset: 0;
 	width: 100%;
 	height: 100%;
 	background-color: rgba(255, 255, 255, 0.8);
