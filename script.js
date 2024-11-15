@@ -1,20 +1,16 @@
-// class for
-
-removeActive = (list, className) => {
-	list.forEach((item) => {
-		item.classList.remove(className);
-	});
-};
+// class for creating events for tabs
 class createTabsEvents {
   constructor(buttons, contents) {
     this.buttons = buttons;
     this.contents = contents;
     this.buttonActiveClass = "tab__button_active";
     this.contentActiveClass = "tab__content_active";
+		console.log(this.buttons)
+		console.log(this.contents)
   }
 
 
-
+	// function for adding events to tab
   addEvents = () => {
     this.buttons.forEach((item, i) => {
       if (i == 0) {
@@ -32,60 +28,45 @@ class createTabsEvents {
   };
 }
 
-const cashTabButtons = document.querySelectorAll(".cash__tab .tab__button");
-const cashTabContents = document.querySelectorAll(".cash__tab .tab__content");
 
-const portfolioCreatedTab = new createTabsEvents(
-  cashTabButtons,
-  cashTabContents
-);
-portfolioCreatedTab.addEvents();
+const tabsClassArr = [
+	{
+		tabClass: ".cash__tab .tab__button",
+		contentClass: ".cash__tab .tab__content",
+	},
+	{
+		tabClass: ".trump__tab .tab__button",
+		contentClass: ".trump__tab .tab__content",
+	},
+	{
+		tabClass: ".canvas__tab .tab__button",
+		contentClass: ".canvas__tab .tab__content",
+	},
+	{
+		tabClass: ".summary__tab .tab__button",
+		contentClass: ".summary__tab .tab__content",
+	},
+	{
+		tabClass: ".articles__tab .tab__button",
+		contentClass: ".articles__tab .tab__content",
+	},
+]
 
-const trumpTabButtons = document.querySelectorAll(".trump__tab .tab__button");
-const trumpTabContents = document.querySelectorAll(".trump__tab .tab__content");
 
-const trumpMoversCreatedTab = new createTabsEvents(
-  trumpTabButtons,
-  trumpTabContents
-);
-trumpMoversCreatedTab.addEvents();
 
-const summaryTabButtons = document.querySelectorAll(
-  ".summary__tab .tab__button"
-);
-const summaryTabContents = document.querySelectorAll(
-  ".summary__tab .tab__content"
-);
+tabsClassArr.forEach((item, i) => {
+	const tabButtons = document.querySelectorAll(item.tabClass);
+	const tabContents = document.querySelectorAll(item.contentClass);
+	
+	const createdTab = new createTabsEvents(
+		tabButtons,
+		tabContents
+	);
+	createdTab.addEvents()
+})
 
-const summaryMoversCreatedTab = new createTabsEvents(
-  summaryTabButtons,
-  summaryTabContents
-);
-summaryMoversCreatedTab.addEvents();
 
-const articlesTabButtons = document.querySelectorAll(
-  ".articles__tab .tab__button"
-);
-const articlesTabContents = document.querySelectorAll(
-  ".articles__tab .tab__content"
-);
-
-const articlesCreatedTab = new createTabsEvents(
-  articlesTabButtons,
-  articlesTabContents
-);
-articlesCreatedTab.addEvents();
-
-const canvasTabButtons = document.querySelectorAll(".canvas__tab .tab__button");
-const canvasTabContents = document.querySelectorAll(
-  ".canvas__tab .tab__content"
-);
-
-const canvasCreatedTab = new createTabsEvents(
-  canvasTabButtons,
-  canvasTabContents
-);
-canvasCreatedTab.addEvents();
+// this data will use to filter and creating top tables
 
 let portfolioData = [
   {
@@ -293,6 +274,8 @@ let trumpMoversData = [
   },
 ];
 
+
+// class for filter data and after redraw table
 class CreateFilteredTable {
   constructor(table, data, type) {
     this.table = table;
@@ -302,6 +285,8 @@ class CreateFilteredTable {
     this.ordField = "";
   }
 
+
+	// this function us
   selectOrd = (id) => {
     if (id === this.ordField) {
       this.ordASC *= -1;
@@ -507,9 +492,12 @@ class CreateFilteredTable {
   }
 }
 
-const thTr = document.querySelectorAll('.thead_tr')
 
-
+removeActive = (list, className) => {
+	list.forEach((item) => {
+		item.classList.remove(className);
+	});
+};
 
 
 

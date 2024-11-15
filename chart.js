@@ -928,6 +928,11 @@ function createChartEvents() {
 
 
 function editMarketChart(data, events, minY, maxY) {
+  newMarketChart.returnChart().destroy()
+
+  newMarketChart = new DrawChart(marketChart, marketChartCtx, data, events, minY, maxY , 'market')
+  newMarketChart.drawCart()
+
   newPerformanceChart.returnChart().destroy()
 
   newPerformanceChart = new DrawChart(performanceChart, performanceChartCtx, data, events, minY, maxY , 'market')
