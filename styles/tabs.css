@@ -46,11 +46,12 @@
 }
 
 .tab__content{
-	display: none;
+	height: 0;
+	overflow: hidden;	
 }
 
 .tab__content_active{
-	display: block;
+	height: 100%;
 }
 
 .summary__tab .tab__buttons{
@@ -75,8 +76,14 @@
 	height: 40px;
 	background-color: var(--button-bg);
 	border: none;
-	color: var(--border-color);
+	color: var(--text-second-color);
 }
+
+.left__button:hover{
+	color: var(--text-main-color);
+	cursor: pointer;
+}
+
 
 .canvas__tab .tab__buttons{
 	justify-content: unset;
@@ -84,7 +91,7 @@
 }
 
 .canvas__tab .tab__contents{
-	aspect-ratio: 2.27/ 1;
+	aspect-ratio: 1.94/ 1;
 }
 
 

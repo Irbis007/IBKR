@@ -1,4 +1,4 @@
-
+// class for 
 class createTabsEvents {
 	constructor(buttons, contents,) {
 		this.buttons = buttons
@@ -271,8 +271,6 @@ let trumpMoversData = [
 ]
 
 
-
-
 class CreateFilteredTable {
 	constructor(table, data, type) {
 		this.table = table;
@@ -391,20 +389,32 @@ class CreateFilteredTable {
 }
 
 
+document.querySelector('td').addEventListener('click', () => {
+	console.log(3)
+})
 
 const portfolioTableBody = document.querySelector('.portfolio tbody')
-const trumpMoversTableBody = document.querySelector('.trump-movers tbody')
 const createdPortfolioTable = new CreateFilteredTable(portfolioTableBody, portfolioData, 'portfolio')
-const createdTrumpMoversTable = new CreateFilteredTable(trumpMoversTableBody, trumpMoversData, 'trump-movers')
 
 portfolioData = createdPortfolioTable.updateData(portfolioData, 'unrealizedPL')
-trumpMoversData = createdTrumpMoversTable.updateData(trumpMoversData, 'changePercent')
-
 createdPortfolioTable.drawTable(portfolioData)
-createdTrumpMoversTable.drawTable(trumpMoversData)
-
 
 const portfolioTh = document.querySelectorAll('.portfolio th')
+
+portfolioTh.forEach((item) => {
+	item.addEventListener('click', (e) => {
+		removeImages(portfolioTh)
+		createdPortfolioTable.orderPortfolio(e)
+	});
+});
+
+
+const trumpMoversTableBody = document.querySelector('.trump-movers tbody')
+const createdTrumpMoversTable = new CreateFilteredTable(trumpMoversTableBody, trumpMoversData, 'trump-movers')
+
+trumpMoversData = createdTrumpMoversTable.updateData(trumpMoversData, 'changePercent')
+createdTrumpMoversTable.drawTable(trumpMoversData)
+
 const trumpMoversTh = document.querySelectorAll('.trump-movers th')
 
 trumpMoversTh.forEach((item) => {
@@ -413,12 +423,168 @@ trumpMoversTh.forEach((item) => {
 		createdTrumpMoversTable.orderPortfolio(e)
 	})
 });
-portfolioTh.forEach((item) => {
+
+
+const unrealizedPLTableBody = document.querySelector('.unrealized__PL tbody')
+const createdUnrealizedPLTable = new CreateFilteredTable(unrealizedPLTableBody, portfolioData, 'portfolio')
+
+portfolioData = createdUnrealizedPLTable.updateData(portfolioData, 'changePercent')
+createdUnrealizedPLTable.drawTable(portfolioData)
+
+const unrealizedPLTh = document.querySelectorAll('.unrealized__PL th')
+
+unrealizedPLTh.forEach((item) => {
 	item.addEventListener('click', (e) => {
-		removeImages(portfolioTh)
-		createdPortfolioTable.orderPortfolio(e)
-	});
+		removeImages(unrealizedPLTh)
+		createdUnrealizedPLTable.orderPortfolio(e)
+	})
 });
+
+
+const realizedPLTableBody = document.querySelector('.realized__PL tbody')
+const createdRealizedPLTable = new CreateFilteredTable(realizedPLTableBody, portfolioData, 'portfolio')
+
+portfolioData = createdRealizedPLTable.updateData(portfolioData, 'changePercent')
+createdRealizedPLTable.drawTable(portfolioData)
+
+const realizedPLTh = document.querySelectorAll('.realized__PL th')
+
+realizedPLTh.forEach((item) => {
+	item.addEventListener('click', (e) => {
+		removeImages(realizedPLTh)
+		createdRealizedPLTable.orderPortfolio(e)
+	})
+});
+
+
+const lotsTableBody = document.querySelector('.lots tbody')
+const createdLotsTable = new CreateFilteredTable(lotsTableBody, portfolioData, 'portfolio')
+
+portfolioData = createdLotsTable.updateData(portfolioData, 'changePercent')
+createdLotsTable.drawTable(portfolioData)
+
+const lotsTh = document.querySelectorAll('.lots th')
+
+lotsTh.forEach((item) => {
+	item.addEventListener('click', (e) => {
+		removeImages(lotsTh)
+		createdLotsTable.orderPortfolio(e)
+	})
+});
+
+
+const tradesTableBody = document.querySelector('.traders tbody')
+const createdTradersTable = new CreateFilteredTable(tradesTableBody, portfolioData, 'portfolio')
+
+portfolioData = createdTradersTable.updateData(portfolioData, 'changePercent')
+createdTradersTable.drawTable(portfolioData)
+
+const tradersTh = document.querySelectorAll('.traders th')
+
+tradersTh.forEach((item) => {
+	item.addEventListener('click', (e) => {
+		removeImages(tradersTh)
+		createdTradersTable.orderPortfolio(e)
+	})
+});
+
+
+const ordersTableBody = document.querySelector('.orders tbody')
+const createdOrdersTable = new CreateFilteredTable(ordersTableBody, portfolioData, 'portfolio')
+
+portfolioData = createdOrdersTable.updateData(portfolioData, 'changePercent')
+createdOrdersTable.drawTable(portfolioData)
+
+const ordersTh = document.querySelectorAll('.orders th')
+
+ordersTh.forEach((item) => {
+	item.addEventListener('click', (e) => {
+		removeImages(ordersTh)
+		createdOrdersTable.orderPortfolio(e)
+	})
+});
+
+
+const healthcareTableBody = document.querySelector('.healthcare tbody')
+const createdHealthcareTable = new CreateFilteredTable(healthcareTableBody, trumpMoversData, 'trump-movers')
+
+trumpMoversData = createdHealthcareTable.updateData(trumpMoversData, 'changePercent')
+createdHealthcareTable.drawTable(trumpMoversData)
+
+const healthcareTh = document.querySelectorAll('.healthcare th')
+
+healthcareTh.forEach((item) => {
+	item.addEventListener('click', (e) => {
+		removeImages(healthcareTh)
+		createdHealthcareTable.orderPortfolio(e)
+	})
+});
+
+
+const AIBetsTableBody = document.querySelector('.ai__bets tbody')
+const createdAIBetsTable = new CreateFilteredTable(AIBetsTableBody, trumpMoversData, 'trump-movers')
+
+trumpMoversData = createdAIBetsTable.updateData(trumpMoversData, 'changePercent')
+createdAIBetsTable.drawTable(trumpMoversData)
+
+const AIBetsTh = document.querySelectorAll('.ai__bets th')
+
+AIBetsTh.forEach((item) => {
+	item.addEventListener('click', (e) => {
+		removeImages(AIBetsTh)
+		createdAIBetsTable.orderPortfolio(e)
+	})
+});
+
+
+const cashTableTds = document.querySelectorAll('.cash__tab tbody tr')
+const trumpTableTds = document.querySelectorAll('.trump__tab tbody tr')
+
+removeActive = (list, className) => {
+	list.forEach(item => {
+		item.classList.remove(className)
+	});
+}
+
+cashTableTds.forEach(row => {
+	addEventOnTr(row)
+
+	row.addEventListener('click', () => {
+		editMarketChart(createChartData(56, 65), createChartEvents(), 56, 65)
+		removeActive(cashTableTds, 'row_active')
+		row.classList.add('row_active')
+	})
+})
+
+trumpTableTds.forEach(row => {
+	row.addEventListener('click', () => {
+		editMarketChart(createChartData(56, 65), null, 56, 65)
+		removeActive(cashTableTds, 'row_active')
+		row.classList.add('row_active')
+	})
+	addEventOnTr(row)
+})
+
+function addEventOnTr(row)  {
+	row.addEventListener('mouseenter', () => {
+		let overlay = document.createElement('div');
+		overlay.classList.add('hover-overlay');
+		let button = document.createElement('button');
+		button.textContent = 'Trade';
+		overlay.appendChild(button);
+		row.appendChild(overlay);
+		overlay.style.display = 'flex';
+});
+
+row.addEventListener('mouseleave', () => {
+		let overlay = row.querySelector('.hover-overlay');
+		if (overlay) {
+				overlay.style.display = 'none';
+				row.removeChild(overlay);
+		}
+});
+}
+
 
 
 
@@ -430,7 +596,6 @@ function removeImages(list) {
 		}
 	})
 }
-
 function createRandomDigit() {
 	return Math.floor(Math.random() * 5) + 1;
 }
@@ -441,37 +606,46 @@ function createRandomFloatDigit() {
 
 
 function changeValue(value, calculateValue, calculatePercent) {
-	const originalVal = +value.textContent.replace(/,/g, '')
 
-	setInterval(() => {
-		const randomDig = +createRandomFloatDigit()
+	if(value && calculateValue && calculatePercent){
+		const originalVal = +value.textContent.replace(/,/g, '')
+		setInterval(() => {
+			const randomDig = +createRandomFloatDigit()
+	
+			if(!Number.isNaN(+calculateValue.textContent.replace(/[+\-%]/g, ''))){
+	
+				let editedCalculateVal = (parseFloat(calculateValue.textContent.replace(/,/g, ''))  + randomDig).toLocaleString('en-US')
+				let editedValue = (+originalVal + randomDig)
+				const percent =  ((editedCalculateVal * 100) / originalVal).toFixed(2)
+	
+				value.textContent = editedValue.toLocaleString('en-US')
+	
+				calculatePercent.textContent = percent
+	
+				if(percent > 0){
+					calculateValue.textContent = '+' + editedCalculateVal
+				} else {
+					calculateValue.textContent = editedCalculateVal
+				}
+	
+				if(editedCalculateVal < 0){
+					calculateValue.parentElement.classList.add('text_red')
+					calculateValue.parentElement.classList.remove('text_green')
+				} else {
+					calculateValue.parentElement.classList.add('text_green')
+					calculateValue.parentElement.classList.remove('text_red')
+				}
+	
+			} 
+		 }, createRandomDigit() * 1000)
+	} else {
+		setInterval(() => {
+			const randomDig = +createRandomFloatDigit()
+			value.textContent = (parseFloat(value.textContent.replace(/,/g, '')) + randomDig).toLocaleString('en-US')
+		}, createRandomDigit() * 1000)
+	}
 
-		if(!Number.isNaN(+calculateValue.textContent.replace(/[+\-%]/g, ''))){
-
-			let editedCalculateVal = (parseFloat(calculateValue.textContent.replace(/,/g, ''))  + randomDig).toLocaleString('en-US')
-			let editedValue = (+originalVal + randomDig)
-			const percent =  ((editedCalculateVal * 100) / originalVal).toFixed(2)
-
-			value.textContent = editedValue.toLocaleString('en-US')
-
-			calculatePercent.textContent = percent
-
-			if(percent > 0){
-				calculateValue.textContent = '+' + editedCalculateVal
-			} else {
-				calculateValue.textContent = editedCalculateVal
-			}
-
-			if(editedCalculateVal < 0){
-				calculateValue.parentElement.classList.add('text_red')
-				calculateValue.parentElement.classList.remove('text_green')
-			} else {
-				calculateValue.parentElement.classList.add('text_green')
-				calculateValue.parentElement.classList.remove('text_red')
-			}
-
-		} 
-	 }, createRandomDigit() * 1000)
+	
 }
 
 const headerAnalyticsValues = document.querySelectorAll('.header__analytics-value')
@@ -483,3 +657,39 @@ headerAnalyticsValues.forEach((item, i) => {
 	changeValue(item, headerAnalyticsCalculateValue[i], headerAnalyticsCalculatePercent[i])
 	headerAnalyticsCalculatePercent[i].parentElement
 })
+
+const dailyPL = document.querySelector('.content__header-value__daily')
+const unrealizedPL = document.querySelector('.content__header-value__unrealized')
+const realizedPL = document.querySelector('.content__header-value__realized')
+
+
+changeValue(dailyPL)
+changeValue(unrealizedPL)
+changeValue(realizedPL)
+
+const headerDaily = document.querySelector(".header_daily")
+
+const calcDaily = (element) => {
+	
+	setInterval(()=>{
+		let originalString = element.textContent
+
+		let number = parseInt(originalString.replace(/[,]/g, ''), 10);
+		let randomNum = Math.floor(Math.random() * 11) - 5;
+
+		number += randomNum;
+	
+		let sign = number >= 0 ? '+' : '-';
+		let formattedNumber = Math.abs(number).toString().padStart(9, '0');
+	
+		formattedNumber = formattedNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+		let updatedString = sign + formattedNumber;
+
+		element.textContent = updatedString;
+
+	}, createRandomDigit() * 1000)
+}
+
+
+calcDaily(headerDaily)

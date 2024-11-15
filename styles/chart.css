@@ -1,8 +1,7 @@
 
 
 .chart__canvas{
-	width: 100% !important;
-	height: unset !important;
+
 	aspect-ratio: 2.4/1;
 }
 

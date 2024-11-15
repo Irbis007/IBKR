@@ -1,4 +1,291 @@
-const chart = document.querySelector("#chart__canvas");
+class DrawChart {
+  constructor(canvas, ctx, data, events, min, max, yTicksType ) {
+    this.canvas = canvas;
+    this.ctx = ctx;
+    this.data = data;
+    this.events = events;
+    this.min = min;
+    this.max = max;
+    this.yTicksType = yTicksType;
+    this.chart
+  }
+   
+  hoverLinePlugin = {
+    id: 'hoverLine',
+    beforeDraw: (chart) => {
+      const { ctx, chartArea, scales: { x, y } } = chart;
+  
+      if (this.activeLineY !== null) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.setLineDash([3, 3]); // Устанавливаем пунктирную линию
+        ctx.moveTo(chartArea.left, y.getPixelForValue(this.activeLineY));
+        ctx.lineTo(chartArea.right, y.getPixelForValue(this.activeLineY));
+        ctx.strokeStyle = '#146EB0'; // Цвет линии
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+  };
+  
+  
+  backgroundTicksPlugin = {
+    id: "backgroundTicks",
+    afterDraw: (chart) => {
+      const {
+        ctx,
+        scales: { y },
+      } = chart;
+        const chartWidth = chart.width;
+  
+        const rectWidth = 66;
+        const rectHeight = 18;
+        const triangleWidth = 7;
+        const triangleHeight = 7;
+        const startX = chartWidth - rectWidth - triangleWidth;
+        const yPosition = y.getPixelForValue(this.activeLineYVal) - rectHeight / 2;
+  
+        if (this.activeLineYVal !== null ) {
+          ctx.fillStyle = "#146EB0";
+          ctx.beginPath();
+          ctx.moveTo(startX, yPosition);
+          ctx.lineTo(startX + rectWidth, yPosition);
+          ctx.lineTo(startX + rectWidth, yPosition + rectHeight);
+          ctx.lineTo(startX, yPosition + rectHeight);
+          ctx.closePath();
+          ctx.fill();
+  
+          ctx.beginPath();
+          const triangleX = startX - triangleWidth;
+          const triangleY = yPosition + rectHeight / 2;
+  
+          ctx.moveTo(triangleX, triangleY);
+          ctx.lineTo(triangleX + triangleWidth, triangleY + triangleHeight);
+          ctx.lineTo(triangleX + triangleWidth, triangleY - triangleHeight);
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+  };
+  
+  customTickPlugin = {
+    id: "customTicks",
+    afterDraw: (chart) => {
+      const {
+        ctx,
+        scales: { y },
+      } = chart;
+        const chartWidth = chart.width;
+  
+        const rectWidth = 66;
+        const triangleWidth = 8;
+        const startX = chartWidth - rectWidth - triangleWidth + 5;
+  
+        const yPosition = y.getPixelForValue(this.activeLineYVal) + 4;
+        if (this.activeLineYVal !== null) {
+          let tickValue = "Avg. " + this.activeLineYVal
+
+          ctx.fillStyle = "#fff";
+          ctx.fillText(tickValue, startX, yPosition);
+        }
+    },
+  };
+  
+  customPointsPlugin = {
+    id: "customPoints",
+    afterDraw: (chart) => {
+      const ctx = chart.ctx;
+      const dataset = chart.data.datasets[0];
+      const meta = chart.getDatasetMeta(0);
+  
+      meta.data.forEach((point, index) => {
+        const x = point.x - 1;
+        const y = point.y;
+  
+        const drawCircle = (
+          widthOutside,
+          widthInside,
+          colorOutside,
+          colorInside 
+        ) => {
+          ctx.beginPath();
+          ctx.arc(x, y, widthOutside, 0, 2 * Math.PI);
+          ctx.fillStyle = colorOutside;
+          ctx.fill();
+          ctx.restore();
+    
+          ctx.beginPath();
+          ctx.arc(x, y, widthInside, 0, 2 * Math.PI);
+          ctx.fillStyle = colorInside;
+          ctx.fill();
+          ctx.restore();
+        };
+  
+        const drawBorderDash = (
+          width,
+          color = 'rgba(177, 16, 31, 1)',
+        ) => {
+          ctx.setLineDash([2, 2]); 
+          ctx.strokeStyle = color; 
+          ctx.lineWidth = 2.5;        
+  
+          ctx.beginPath();
+          ctx.arc(x, y, width - 1, 0, Math.PI * 2); 
+          ctx.stroke(); 
+        }
+  
+        if(this.events){
+          this.events.forEach((item, i) => {
+          
+            if(item.index == index){
+              const {widthOutside, widthInside, colorOutside, colorInside} = item.properties
+              
+              if(item.index == 187) {
+                drawCircle(widthOutside, widthInside, colorOutside, colorInside)
+                drawBorderDash(widthOutside)
+                drawBorderDash(widthInside)
+              } else{
+                drawCircle(widthOutside, widthInside, colorOutside, colorInside)
+              }
+            }
+          })
+        }
+      });
+    },
+  };
+  
+  activeLineY = null;
+  activeLineYVal = null;
+
+  returnChart = () => {
+    return this.chart
+  }
+  
+
+  drawCart = () => {
+    this.chart = new Chart(this.canvas, {
+      type: "line",
+      data: {
+        datasets: [
+          {
+            data: this.data.map(({x,y}) => ({ x, y })),
+            borderWidth: 2,
+            borderColor: "#146EB0",
+            fill: "start",
+        
+            pointBackgroundColor: 'transparent',
+            pointBorderColor: 'transparent',
+            tension: 0.2,
+            
+            backgroundColor: (q,w) => {
+              var gradientFill = this.ctx.createLinearGradient(
+                0,
+                0,
+                0,
+                this.ctx.canvas.height / 1.5
+              );
+              gradientFill.addColorStop(0, "#5998F533");
+              gradientFill.addColorStop(1, "#ffffff00");
+            
+              return gradientFill;
+            }
+          }
+        ]
+      },
+      options: {
+        animation: false,
+        layout: {
+          padding: 0,
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+          chartAreaBorder: {
+            borderColor: "transparent",
+            borderWidth: 2,
+          },
+          backgroundTicksPlugin: this.backgroundTicksPlugin,
+          tooltip: {
+            enabled: false, // Disables the tooltip
+          },
+        },
+        onHover: (event, elements, ctx) => {
+          if (elements.length && this.events) {
+            this.events.forEach(item => {
+              if(elements[0].index == item.index) {
+                const index = elements[0].index;
+                this.activeLineY = this.data[index].y;
+      
+                this.activeLineYVal = this.data[index].y;
+              }
+            })
+          } else {
+            this.activeLineY = null; 
+            this.activeLineYVal = null;
+          }
+          this.chart.update(); 
+        },
+        scales: {
+          x: {
+            min: 1,
+            max: this.data.length,
+            grid: {
+              color: "transparent",
+            },
+            type: "linear",
+            position: "bottom",
+            border: {
+              display: false,
+            },
+      
+            maxTicksLimit: 10,
+            minTicksLimit: 10,
+            ticks: {
+              display: false,
+            },
+          },
+          y: {
+            min: this.min,
+            max: this.max,
+            grid: {
+              color: "#1F4C69",
+              tickLength: 0,
+            },
+            position: "right",
+            type: "linear",
+            border: {
+              dash: [3],
+              display: false,
+            },
+            ticks: {
+              color: "#146EB0",
+              callback: (value) => {
+                if(this.yTicksType == 'market'){
+                  return value.toFixed(2);
+                }
+                if(this.yTicksType == 'performance'){
+                  return value + '%'
+                }
+                return value
+              },
+              font: {
+                size: 12,
+                family: "Proxima nova, sans-serif",
+              },
+              padding: 10,
+            },
+          },
+        },
+      },
+      plugins: [this.backgroundTicksPlugin, this.customTickPlugin, this.customPointsPlugin, this.hoverLinePlugin],
+    });
+  }
+}
+
+const marketChart = document.querySelector("#market__chart");
+const marketChartCtx = marketChart.getContext("2d");
 
 const data = [
   { x: 1, y: 82.7 },
@@ -221,256 +508,434 @@ const data = [
   { x: 218, y: 90.55 },
 ];
 
-const ctx = chart.getContext("2d");
-
-const backgroundTicksPlugin = {
-  id: "backgroundTicks",
-  beforeDraw: (chart) => {
-    const {
-      ctx,
-      scales: { y },
-    } = chart;
-
-    y.ticks.forEach((tick, index) => {
-      const chartWidth = chart.width;
-
-      const rectWidth = 66;
-      const rectHeight = 18;
-      const triangleWidth = 7;
-      const triangleHeight = 7;
-      const startX = chartWidth - rectWidth - triangleWidth;
-      const yPosition = y.getPixelForValue(tick.value) - rectHeight / 2;
-
-      if (tick.value == 94) {
-        ctx.fillStyle = "#146EB0";
-        ctx.beginPath();
-        ctx.moveTo(startX, yPosition);
-        ctx.lineTo(startX + rectWidth, yPosition);
-        ctx.lineTo(startX + rectWidth, yPosition + rectHeight);
-        ctx.lineTo(startX, yPosition + rectHeight);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.beginPath();
-        const triangleX = startX - triangleWidth;
-        const triangleY = yPosition + rectHeight / 2;
-
-        ctx.moveTo(triangleX, triangleY);
-        ctx.lineTo(triangleX + triangleWidth, triangleY + triangleHeight);
-        ctx.lineTo(triangleX + triangleWidth, triangleY - triangleHeight);
-        ctx.closePath();
-        ctx.fill();
-      }
-    });
+const chartEvent = [
+  {
+    index: 5,
+    properties: {
+      widthOutside: 8,
+      widthInside: 5,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
   },
-};
-
-const customTickPlugin = {
-  id: "customTicks",
-  afterDraw: (chart) => {
-    const {
-      ctx,
-      scales: { y },
-    } = chart;
-
-    y.ticks.forEach((tick) => {
-      const chartWidth = chart.width;
-
-      const rectWidth = 66;
-      const triangleWidth = 8;
-      const startX = chartWidth - rectWidth - triangleWidth + 5;
-
-      const yPosition = y.getPixelForValue(tick.value) + 4;
-      if (tick.value == 94) {
-        ctx.fillStyle = "#fff";
-        ctx.fillText("Avg. 94.05", startX, yPosition);
-      }
-    });
+  {
+    index: 18,
+    properties: {
+      widthOutside: 10,
+      widthInside: 7,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
   },
-};
-
-const customPointsPlugin = {
-  id: "customPoints",
-  afterDraw: (chart) => {
-    const ctx = chart.ctx;
-    const dataset = chart.data.datasets[0];
-    const meta = chart.getDatasetMeta(0);
-
-    meta.data.forEach((point, index) => {
-      const x = point.x - 1;
-      const y = point.y;
-
-			const drawCircle = (
-				widthOutside,
-				widthInside,
-				colorOutside = "rgba(5, 113, 57, .7)",
-				colorInside = "rgba(62, 194, 124, .6)"
-			) => {
-				ctx.beginPath();
-				ctx.arc(x, y, widthOutside, 0, 2 * Math.PI);
-				ctx.fillStyle = colorOutside;
-				ctx.fill();
-				ctx.restore();
-	
-				ctx.beginPath();
-				ctx.arc(x, y, widthInside, 0, 2 * Math.PI);
-				ctx.fillStyle = colorInside;
-				ctx.fill();
-				ctx.restore();
-			};
-
-			const drawBorderDash = (
-				width,
-				color = 'rgba(177, 16, 31, 1)',
-			) => {
-				ctx.setLineDash([2, 2]); 
-				ctx.strokeStyle = color; 
-				ctx.lineWidth = 2.5;        
-
-				ctx.beginPath();
-				ctx.arc(x, y, width - 1, 0, Math.PI * 2); 
-				ctx.stroke(); 
-			}
-
-      if (index == 5) {
-				drawCircle(8, 5)
-      } else if (index == 18) {
-				drawCircle(10, 7)
-      } else if (index == 28) {
-				drawCircle(8, 5)
-      } else if (index == 53) {
-				drawCircle(8.5, 5.5)
-      } else if (index == 18) {
-				drawCircle(10, 7)
-      } else if (index == 60) {
-				drawCircle(6, 1)
-      } else if (index == 70) {
-				drawCircle(8, 5)
-      } else if (index == 77) {
-				drawCircle(8, 5)
-      } else if (index == 86) {
-				drawCircle(7.5, 4.5, 'rgba(177, 16, 31, .7)', 'rgba(253, 91, 105, .8)')
-      } else if (index == 112) {
-				drawCircle(7.5, 4.5, 'rgba(177, 16, 31, .7)', 'rgba(253, 91, 105, .8)')
-      } else if (index == 118) {
-				drawCircle(8, 5)
-      } else if (index == 135) {
-				drawCircle(8, 5)
-      } else if (index == 141) {
-				drawCircle(7.5, 4.5, 'rgba(177, 16, 31, .7)', 'rgba(253, 91, 105, .8)')
-      } else if (index == 147) {
-				drawCircle(11, 8, 'rgba(177, 16, 31, .7)', 'rgba(253, 91, 105, .8)')
-				drawCircle(5, 2)
-      } else if (index == 159) {
-				drawCircle(5, 2)
-      } else if (index == 162) {
-				drawCircle(7.5, 4.5, 'rgba(177, 16, 31, .7)', 'rgba(253, 91, 105, .8)')
-      } else if (index == 175) {
-				drawCircle(5, 2)
-      } else if (index == 187) {
-				drawCircle(11, 5, 'rgba(254, 214, 217, 1.7)', 'rgba(62, 194, 124, .7)')
-				drawBorderDash(11)
-				drawBorderDash(5, 'rgba(5, 113, 57, 1)')
-      } 
-
-      
-    });
+  {
+    index: 28,
+    properties: {
+      widthOutside: 8,
+      widthInside: 5,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
   },
-};
+  {
+    index: 53,
+    properties: {
+      widthOutside: 8.5,
+      widthInside: 5.5,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
+  },
+  {
+    index: 60,
+    properties: {
+      widthOutside: 6,
+      widthInside: 1,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
+  },
+  {
+    index: 70,
+    properties: {
+      widthOutside: 8,
+      widthInside: 5,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
+  },
+  {
+    index: 77,
+    properties: {
+      widthOutside: 8,
+      widthInside: 5,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
+  },
+  {
+    index: 86,
+    properties: {
+      widthOutside: 7.5,
+      widthInside: 4.5,
+      colorOutside: "rgba(177, 16, 31, .7)",
+      colorInside: "rgba(253, 91, 105, .8)"
+    }
+  },
+  {
+    index: 118,
+    properties: {
+      widthOutside: 8,
+      widthInside: 5,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
+  },
+  {
+    index: 135,
+    properties: {
+      widthOutside: 8,
+      widthInside: 5,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
+  },
+  {
+    index: 141,
+    properties: {
+      widthOutside: 7.5,
+      widthInside: 4.5,
+      colorOutside: "rgba(177, 16, 31, .7)",
+      colorInside: "rgba(253, 91, 105, .8)"
+    }
+  },
+  {
+    index: 147,
+    properties: {
+      widthOutside: 11,
+      widthInside: 8,
+      colorOutside: "rgba(177, 16, 31, .7)",
+      colorInside: "rgba(253, 91, 105, .8)"
+    }
+  },
+  {
+    index: 147,
+    properties: {
+      widthOutside: 5,
+      widthInside: 2,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
+  },
+  {
+    index: 159,
+    properties: {
+      widthOutside: 5,
+      widthInside: 2,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
+  },
+  {
+    index: 162,
+    properties: {
+      widthOutside: 7.5,
+      widthInside: 4.5,
+      colorOutside: "rgba(177, 16, 31, .7)",
+      colorInside: "rgba(253, 91, 105, .8)"
+    }
+  },
+  {
+    index: 175,
+    properties: {
+      widthOutside: 5,
+      widthInside: 2,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
+  },
+  {
+    index: 187,
+    properties: {
+      widthOutside: 11,
+      widthInside: 5,
+      colorOutside: "rgba(254, 214, 217, 1.7)",
+      colorInside: "rgba(62, 194, 124, .7)"
+    }
+  },
 
-new Chart(chart, {
-  type: "line",
-  data: {
-    datasets: [
+]
+
+let newMarketChart = new DrawChart(marketChart, marketChartCtx, data, chartEvent, 80, 98, 'market')
+
+newMarketChart.drawCart()
+
+
+const performanceChart = document.querySelector("#performance__chart");
+const performanceChartCtx = marketChart.getContext("2d");
+
+
+const secondData = [
+  { x: 1, y: 6.89 },
+  { x: 2, y: 7.16 },
+  { x: 3, y: 5.99 },
+  { x: 4, y: 5.87 },
+  { x: 5, y: 5.32 },
+  { x: 6, y: 5.99 },
+  { x: 7, y: 5.73 },
+  { x: 8, y: 8.63 },
+  { x: 9, y: 7.29 },
+  { x: 10, y: 7.23 },
+  { x: 11, y: 7.16 },
+  { x: 12, y: 3.96 },
+  { x: 13, y: 6.82 },
+  { x: 14, y: 5.45 },
+  { x: 15, y: 5.38 },
+  { x: 16, y: 4.22 },
+  { x: 17, y: 4.49 },
+  { x: 18, y: 5.38 },
+  { x: 19, y: 5.70 },
+  { x: 20, y: 4.36 },
+  { x: 21, y: 4.49 },
+  { x: 22, y: 5.32 },
+  { x: 23, y: 4.29 },
+  { x: 24, y: 4.91 },
+  { x: 25, y: 5.32 },
+  { x: 26, y: 6.34 },
+  { x: 27, y: 6.47 },
+  { x: 28, y: 8.19 },
+  { x: 29, y: 5.45 },
+  { x: 30, y: 7.95 },
+  { x: 31, y: 7.89 },
+  { x: 32, y: 12.16 },
+  { x: 33, y: 11.80 },
+  { x: 34, y: 12.70 },
+  { x: 35, y: 13.93 },
+  { x: 36, y: 11.43 },
+  { x: 37, y: 11.80 },
+  { x: 38, y: 8.75 },
+  { x: 39, y: 11.30 },
+  { x: 40, y: 10.78 },
+  { x: 41, y: 11.43 },
+  { x: 42, y: 11.30 },
+  { x: 43, y: 13.56 },
+  { x: 44, y: 13.30 },
+  { x: 45, y: 13.34 },
+  { x: 46, y: 13.63 },
+  { x: 47, y: 12.57 },
+  { x: 48, y: 12.70 },
+  { x: 49, y: 13.14 },
+  { x: 50, y: 14.46 },
+  { x: 51, y: 14.39 },
+  { x: 52, y: 15.83 },
+  { x: 53, y: 15.56 },
+  { x: 54, y: 13.93 },
+  { x: 55, y: 15.56 },
+  { x: 56, y: 16.76 },
+  { x: 57, y: 16.49 },
+  { x: 58, y: 19.00 },
+  { x: 59, y: 19.23 },
+  { x: 60, y: 17.82 },
+  { x: 61, y: 18.48 },
+  { x: 62, y: 16.62 },
+  { x: 63, y: 16.35 },
+  { x: 64, y: 16.62 },
+  { x: 65, y: 15.56 },
+  { x: 66, y: 17.82 },
+  { x: 67, y: 16.62 },
+  { x: 68, y: 16.49 },
+  { x: 69, y: 16.35 },
+  { x: 70, y: 16.22 },
+  { x: 71, y: 19.37 },
+  { x: 72, y: 18.09 },
+  { x: 73, y: 13.00 },
+  { x: 74, y: 13.83 },
+  { x: 75, y: 13.14 },
+  { x: 76, y: 13.56 },
+  { x: 77, y: 11.57 },
+  { x: 78, y: 11.43 },
+  { x: 79, y: 13.56 },
+  { x: 80, y: 13.56 },
+  { x: 81, y: 12.70 },
+  { x: 82, y: 14.39 },
+  { x: 83, y: 17.55 },
+  { x: 84, y: 17.95 },
+  { x: 85, y: 16.62 },
+  { x: 86, y: 16.49 },
+  { x: 87, y: 15.69 },
+  { x: 88, y: 18.48 },
+  { x: 89, y: 18.09 },
+  { x: 90, y: 20.49 },
+  { x: 91, y: 22.04 },
+  { x: 92, y: 18.62 },
+  { x: 93, y: 18.48 },
+  { x: 94, y: 17.82 },
+  { x: 95, y: 17.77 },
+  { x: 96, y: 16.76 },
+  { x: 97, y: 18.95 },
+  { x: 98, y: 22.89 },
+  { x: 99, y: 23.61 },
+  { x: 100, y: 22.89 },
+  { x: 101, y: 21.56 },
+  { x: 102, y: 22.16 },
+  { x: 103, y: 22.30 },
+  { x: 104, y: 23.61 },
+  { x: 105, y: 23.55 },
+  { x: 106, y: 22.30 },
+  { x: 107, y: 23.47 },
+  { x: 108, y: 21.95 },
+  { x: 109, y: 21.82 },
+  { x: 110, y: 22.75 },
+  { x: 111, y: 23.47 },
+  { x: 112, y: 22.75 },
+  { x: 113, y: 24.35 },
+  { x: 114, y: 22.75 },
+  { x: 115, y: 23.47 },
+  { x: 116, y: 20.49 },
+  { x: 117, y: 22.23 },
+  { x: 118, y: 18.09 }
+];
+
+const secondChartEvent = [
+  {
+    index: 5,
+    properties: {
+      widthOutside: 8,
+      widthInside: 5,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
+  },
+  {
+    index: 18,
+    properties: {
+      widthOutside: 10,
+      widthInside: 7,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
+  },
+  {
+    index: 28,
+    properties: {
+      widthOutside: 8,
+      widthInside: 5,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
+  },
+  {
+    index: 53,
+    properties: {
+      widthOutside: 8.5,
+      widthInside: 5.5,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
+  },
+  {
+    index: 60,
+    properties: {
+      widthOutside: 6,
+      widthInside: 1,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
+  },
+  {
+    index: 70,
+    properties: {
+      widthOutside: 8,
+      widthInside: 5,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
+  },
+  {
+    index: 77,
+    properties: {
+      widthOutside: 8,
+      widthInside: 5,
+      colorOutside: "rgba(5, 113, 57, .7)",
+      colorInside: "rgba(62, 194, 124, .6)"
+    }
+  },
+  {
+    index: 86,
+    properties: {
+      widthOutside: 7.5,
+      widthInside: 4.5,
+      colorOutside: "rgba(177, 16, 31, .7)",
+      colorInside: "rgba(253, 91, 105, .8)"
+    }
+  },
+]
+
+const newPerformanceChart = new DrawChart(performanceChart, performanceChartCtx, secondData, secondChartEvent, 0, 40, 'performance')
+
+newPerformanceChart.returnChart()
+
+newPerformanceChart.drawCart()
+
+
+
+
+
+function createChartData(min, max, maxStep = 2) {
+  let arr = []
+  let lastMin = min
+  for(let i = 0; i <= 60; i++){
+    let randomDig = (Math.random() * (maxStep * 2)) - maxStep
+    if(min > lastMin + randomDig) {
+      lastMin += randomDig * -1
+    } else if(max < lastMin + randomDig) {
+      lastMin += randomDig * -1
+    } else {
+      lastMin += randomDig
+    }
+    
+    
+    arr.push({x: i+1, y: parseFloat(lastMin.toFixed(2))})
+  }
+
+  return arr
+}
+
+function createChartEvents() {
+  let initialPointPosition = Math.floor(Math.random() * (5 - 2 + 1)) + 2
+
+  let arr = []
+  for(;initialPointPosition < 119;) {
+    let randomDig =  Math.floor(Math.random() * (9- 2 + 1)) + 2 
+
+    if(initialPointPosition + randomDig > 60) {
+      break
+    } 
+    arr.push(
       {
-        data: data.map((point) => ({ x: point.x, y: point.y })),
-        borderWidth: 2,
-        borderColor: "#146EB0",
-        fill: "start",
-        backgroundColor: () => {
-          var gradientFill = ctx.createLinearGradient(
-            0,
-            0,
-            0,
-            ctx.canvas.height / 1.5
-          );
-          gradientFill.addColorStop(0, "#5998F533");
-          gradientFill.addColorStop(1, "#ffffff00");
+        index: initialPointPosition,
+        properties: {
+          widthOutside: 8,
+          widthInside: 5,
+          colorOutside: randomDig == 2 || randomDig == 4 ? "rgba(177, 16, 31, .7)" : "rgba(5, 113, 57, .7)",
+          colorInside: randomDig == 2 || randomDig == 4 ? "rgba(253, 91, 105, .8)" : "rgba(62, 194, 124, .6)"
+        }
+      },
+    )
 
-          return gradientFill;
-        },
-        pointRadius: 0,
-        tension: 0.2,
-      },
-    ],
-  },
-  options: {
-    layout: {
-      padding: 0,
-    },
-    plugins: {
-      legend: {
-        display: false,
-      },
-      chartAreaBorder: {
-        borderColor: "transparent",
-        borderWidth: 2,
-      },
-      backgroundTicksPlugin,
-    },
-    scales: {
-      x: {
-        min: 1,
-        max: 218,
-        grid: {
-          color: "transparent",
-        },
-        type: "linear",
-        position: "bottom",
-        border: {
-          display: false,
-        },
+    initialPointPosition += randomDig
+  }
 
-        maxTicksLimit: 10,
-        minTicksLimit: 10,
-        ticks: {
-          display: false,
-        },
-      },
-      y: {
-        min: 80,
-        max: 98,
-        grid: {
-          color: function (context) {
-            if (context.tick.value === 94) {
-              return "#146EB0";
-            }
-            return "#1F4C69";
-          },
-          tickLength: 0,
-        },
-        position: "right",
-        type: "linear",
-        border: {
-          dash: [3],
-          display: false,
-        },
-        ticks: {
-          color: function (context) {
-            return "#146EB0";
-          },
-          callback: function (value) {
-            return value.toFixed(2);
-          },
-          font: {
-            size: 12,
-            family: "Proxima nova, sans-serif",
-          },
-          padding: 10,
-        },
-      },
-    },
-    events: [],
-  },
-  plugins: [backgroundTicksPlugin, customTickPlugin, customPointsPlugin],
-});
+  return arr
+}
+
+
+function editMarketChart(data, events, minY, maxY) {
+  newMarketChart.returnChart().destroy()
+
+  newMarketChart = new DrawChart(marketChart, marketChartCtx, data, events, minY, maxY , 'market')
+  newMarketChart.drawCart()
+}
+
+
+
+
