@@ -33,13 +33,20 @@
 }
 
 .summary__tab .tab__content{
+	padding: 0px 20px;
+}
+
+.summary__tab .tab__content.tab__content_active{
 	padding: 11px 20px;
 }
 
 .articles__tab .tab__content{
-	padding: 19px 36px;
+	padding: 0px 36px;
 }
 
+.articles__tab .tab__content.tab__content_active{
+	padding: 19px 36px;
+}
 
 
 .articles__tab-content{

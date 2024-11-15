@@ -31,7 +31,7 @@ class DrawChart {
     }
   };
   
-  // custom chart's plugin for create right side
+  // custom chart's plugin for create background right value 
   backgroundTicksPlugin = {
     id: "backgroundTicks",
     afterDraw: (chart) => {
@@ -70,7 +70,8 @@ class DrawChart {
         }
       }
   };
-  
+
+  // custom chart's plugin for create text right value 
   customTickPlugin = {
     id: "customTicks",
     afterDraw: (chart) => {
@@ -93,7 +94,7 @@ class DrawChart {
         }
     },
   };
-  
+  // custom chart's plugin for create event points
   customPointsPlugin = {
     id: "customPoints",
     afterDraw: (chart) => {
