@@ -1,3 +1,5 @@
+
+// class for creating charts
 class DrawChart {
   constructor(canvas, ctx, data, events, min, max, yTicksType ) {
     this.canvas = canvas;
@@ -29,7 +31,7 @@ class DrawChart {
     }
   };
   
-  
+  // custom chart's plugin for create right side
   backgroundTicksPlugin = {
     id: "backgroundTicks",
     afterDraw: (chart) => {
@@ -162,7 +164,7 @@ class DrawChart {
     return this.chart
   }
   
-
+  // function for draw chart
   drawCart = () => {
     this.chart = new Chart(this.canvas, {
       type: "line",
@@ -282,9 +284,11 @@ class DrawChart {
     });
   }
 }
-
+// get canvas from html and create ctx
 const marketChart = document.querySelector("#market__chart");
 const marketChartCtx = marketChart.getContext("2d");
+
+// market initial data
 
 const data = [
   { x: 1, y: 82.7 },
@@ -507,6 +511,9 @@ const data = [
   { x: 218, y: 90.55 },
 ];
 
+
+// market initial events
+
 const chartEvent = [
   {
     index: 5,
@@ -664,15 +671,17 @@ const chartEvent = [
 
 ]
 
+// creating market chart 
 let newMarketChart = new DrawChart(marketChart, marketChartCtx, data, chartEvent, 80, 98, 'market')
 
 newMarketChart.drawCart()
 
-
+// get canvas from html and create ctx
 const performanceChart = document.querySelector("#performance__chart");
 const performanceChartCtx = marketChart.getContext("2d");
 
 
+// performance initial data
 const secondData = [
   { x: 1, y: 6.89 },
   { x: 2, y: 7.16 },
@@ -794,6 +803,7 @@ const secondData = [
   { x: 118, y: 18.09 }
 ];
 
+// performance initial events
 const secondChartEvent = [
   {
     index: 5,
@@ -869,6 +879,7 @@ const secondChartEvent = [
   },
 ]
 
+// creating performance chart
 let newPerformanceChart = new DrawChart(performanceChart, performanceChartCtx, secondData, secondChartEvent, 0, 40, 'performance')
 
 newPerformanceChart.drawCart()
@@ -877,7 +888,7 @@ newPerformanceChart.returnChart()
 
 
 
-
+// function for creating random chart's data
 function createChartData(min, max, maxStep = 2) {
   let arr = []
   let lastMin = min
@@ -926,7 +937,7 @@ function createChartEvents() {
   return arr
 }
 
-
+// function for create new market chart
 function editMarketChart(data, events, minY, maxY) {
   newMarketChart.returnChart().destroy()
 
@@ -935,7 +946,7 @@ function editMarketChart(data, events, minY, maxY) {
 
 }
 
-
+// function for create new performance chart
 function editPerformanceChart(data, events, minY, maxY) {
 
   newPerformanceChart.returnChart().destroy()

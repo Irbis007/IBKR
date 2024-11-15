@@ -297,7 +297,7 @@ class CreateFilteredTable {
   };
 
 
-	// this function utilized for filter table and add rows color  
+	// this function utilized for filter table rows and add rows color  
   updateData = (data, filterKey) => {
     let positiveValues = data.filter((item) => item[filterKey] >= 0);
     let negativeValues = data.filter((item) => item[filterKey] < 0);
@@ -342,7 +342,7 @@ class CreateFilteredTable {
   };
 
 
-	// this function utilized for adding an events to table thead rows (hover and click)
+	// this function utilized for adding an events to table thead rows (click)
 	addOnTheadTrEvent  = () => {
 
 		const thTr = document.querySelectorAll('.thead_tr')
@@ -359,7 +359,7 @@ class CreateFilteredTable {
 		})
 	}
 
-	// this function utilized for adding an events to table rows (hover and click)
+	// this function utilized for adding an events to table rows (click)
   addEventOnTrs = () => {
     const trs = this.table.querySelectorAll("tr");
 
@@ -390,9 +390,9 @@ class CreateFilteredTable {
         });
       });
     }
-
-
   };
+
+	// this function utilized for adding an events to table rows (click)
   addEventOnTr(row) {
     row.addEventListener("mouseenter", () => {
       let overlay = document.createElement("div");
@@ -413,7 +413,7 @@ class CreateFilteredTable {
 		});
   }
 
-	// this function 
+	// this function utilized for filtering array and add arrow icon by click on th
   orderPortfolio = (e) => {
     if (e.target && e.target.id) {
       this.selectOrd(e.target.id);
@@ -458,6 +458,7 @@ class CreateFilteredTable {
     }
   };
 
+	// this table utilized for draw filtered table
   drawTable(data) {
     this.table.innerHTML = `
 			${data
@@ -498,213 +499,102 @@ class CreateFilteredTable {
 		`;
   }
 }
-
-
+	// this function removing 
 removeActive = (list, className) => {
 	list.forEach((item) => {
 		item.classList.remove(className);
 	});
 };
 
+const tablesData = [
+	{
+		tableBodyClass: '.portfolio tbody',
+		tableData: portfolioData,
+		tableType: 'portfolio',
+		filterType: 'unrealizedPL',
+		tableThClass: ".portfolio th"
+	},
+	{
+		tableBodyClass: '.trump-movers tbody',
+		tableData: trumpMoversData,
+		tableType: 'trump_movers',
+		filterType: 'changePercent',
+		tableThClass: ".trump-movers th"
+	},
+	{
+		tableBodyClass: '.unrealized__PL tbody',
+		tableData: portfolioData,
+		tableType: 'portfolio',
+		filterType: 'unrealizedPL',
+		tableThClass: ".unrealized__PL th"
+	},
+	{
+		tableBodyClass: '.lots tbody',
+		tableData: portfolioData,
+		tableType: 'portfolio',
+		filterType: 'unrealizedPL',
+		tableThClass: ".lots th"
+	},
+	{
+		tableBodyClass: '.traders tbody',
+		tableData: portfolioData,
+		tableType: 'portfolio',
+		filterType: 'unrealizedPL',
+		tableThClass: ".traders th"
+	},
+	{
+		tableBodyClass: '.orders tbody',
+		tableData: portfolioData,
+		tableType: 'portfolio',
+		filterType: 'unrealizedPL',
+		tableThClass: ".orders th"
+	},
+	{
+		tableBodyClass: '.healthcare tbody',
+		tableData: trumpMoversData,
+		tableType: 'trump-movers',
+		filterType: 'changePercent',
+		tableThClass: ".healthcare th"
+	},
+	{
+		tableBodyClass: '.ai__bets tbody',
+		tableData: trumpMoversData,
+		tableType: 'trump-movers',
+		filterType: 'changePercent',
+		tableThClass: ".ai__bets th"
+	},
+	{
+		tableBodyClass: '.realized__PL tbody',
+		tableData: portfolioData,
+		tableType: 'portfolio',
+		filterType: 'unrealizedPL',
+		tableThClass: ".realized__PL th"
+	},
+]
 
+tablesData.forEach((item, i) => {
+	const tableBody = document.querySelector(item.tableBodyClass);
+	const createdTable = new CreateFilteredTable(
+		tableBody,
+		item.tableData,
+		item.tableType
+	);
+	
+	item.tableData = createdTable.updateData(item.tableData, item.filterType);
+	createdTable.drawTable(item.tableData);
+	createdTable.addEventOnTrs()
+	createdTable.addOnTheadTrEvent()
 
-const portfolioTableBody = document.querySelector(".portfolio tbody");
-const createdPortfolioTable = new CreateFilteredTable(
-  portfolioTableBody,
-  portfolioData,
-  "portfolio"
-);
+	const th = document.querySelectorAll(item.tableThClass);
 
+	th.forEach((item) => {
+		item.addEventListener("click", (e) => {
+			removeImages(th);
+			createdTable.orderPortfolio(e);
+		});
+	});
+})
 
-
-portfolioData = createdPortfolioTable.updateData(portfolioData, "unrealizedPL");
-createdPortfolioTable.drawTable(portfolioData);
-createdPortfolioTable.addEventOnTrs()
-createdPortfolioTable.addOnTheadTrEvent()
-
-const portfolioTh = document.querySelectorAll(".portfolio th");
-
-portfolioTh.forEach((item) => {
-  item.addEventListener("click", (e) => {
-    removeImages(portfolioTh);
-    createdPortfolioTable.orderPortfolio(e);
-  });
-});
-
-const trumpMoversTableBody = document.querySelector(".trump-movers tbody");
-const createdTrumpMoversTable = new CreateFilteredTable(
-  trumpMoversTableBody,
-  trumpMoversData,
-  "trump-movers"
-);
-
-trumpMoversData = createdTrumpMoversTable.updateData(
-  trumpMoversData,
-  "changePercent"
-);
-createdTrumpMoversTable.drawTable(trumpMoversData);
-createdTrumpMoversTable.addEventOnTrs()
-
-const trumpMoversTh = document.querySelectorAll(".trump-movers th");
-
-trumpMoversTh.forEach((item) => {
-  item.addEventListener("click", (e) => {
-    removeImages(trumpMoversTh);
-    createdTrumpMoversTable.orderPortfolio(e);
-  });
-});
-
-const unrealizedPLTableBody = document.querySelector(".unrealized__PL tbody");
-const createdUnrealizedPLTable = new CreateFilteredTable(
-  unrealizedPLTableBody,
-  portfolioData,
-  "portfolio"
-);
-
-portfolioData = createdUnrealizedPLTable.updateData(
-  portfolioData,
-  "changePercent"
-);
-createdUnrealizedPLTable.drawTable(portfolioData);
-createdUnrealizedPLTable.addEventOnTrs()
-
-const unrealizedPLTh = document.querySelectorAll(".unrealized__PL th");
-
-unrealizedPLTh.forEach((item) => {
-  item.addEventListener("click", (e) => {
-    removeImages(unrealizedPLTh);
-    createdUnrealizedPLTable.orderPortfolio(e);
-  });
-});
-
-const realizedPLTableBody = document.querySelector(".realized__PL tbody");
-const createdRealizedPLTable = new CreateFilteredTable(
-  realizedPLTableBody,
-  portfolioData,
-  "portfolio"
-);
-
-portfolioData = createdRealizedPLTable.updateData(
-  portfolioData,
-  "changePercent"
-);
-createdRealizedPLTable.drawTable(portfolioData);
-createdRealizedPLTable.addEventOnTrs()
-
-const realizedPLTh = document.querySelectorAll(".realized__PL th");
-
-realizedPLTh.forEach((item) => {
-  item.addEventListener("click", (e) => {
-    removeImages(realizedPLTh);
-    createdRealizedPLTable.orderPortfolio(e);
-  });
-});
-
-const lotsTableBody = document.querySelector(".lots tbody");
-const createdLotsTable = new CreateFilteredTable(
-  lotsTableBody,
-  portfolioData,
-  "portfolio"
-);
-
-portfolioData = createdLotsTable.updateData(portfolioData, "changePercent");
-createdLotsTable.drawTable(portfolioData);
-createdLotsTable.addEventOnTrs()
-
-const lotsTh = document.querySelectorAll(".lots th");
-
-lotsTh.forEach((item) => {
-  item.addEventListener("click", (e) => {
-    removeImages(lotsTh);
-    createdLotsTable.orderPortfolio(e);
-  });
-});
-
-const tradesTableBody = document.querySelector(".traders tbody");
-const createdTradersTable = new CreateFilteredTable(
-  tradesTableBody,
-  portfolioData,
-  "portfolio"
-);
-
-portfolioData = createdTradersTable.updateData(portfolioData, "changePercent");
-createdTradersTable.drawTable(portfolioData);
-createdTradersTable.addEventOnTrs()
-
-const tradersTh = document.querySelectorAll(".traders th");
-
-tradersTh.forEach((item) => {
-  item.addEventListener("click", (e) => {
-    removeImages(tradersTh);
-    createdTradersTable.orderPortfolio(e);
-  });
-});
-
-const ordersTableBody = document.querySelector(".orders tbody");
-const createdOrdersTable = new CreateFilteredTable(
-  ordersTableBody,
-  portfolioData,
-  "portfolio"
-);
-
-portfolioData = createdOrdersTable.updateData(portfolioData, "changePercent");
-createdOrdersTable.drawTable(portfolioData);
-createdOrdersTable.addEventOnTrs()
-
-const ordersTh = document.querySelectorAll(".orders th");
-
-ordersTh.forEach((item) => {
-  item.addEventListener("click", (e) => {
-    removeImages(ordersTh);
-    createdOrdersTable.orderPortfolio(e);
-  });
-});
-
-const healthcareTableBody = document.querySelector(".healthcare tbody");
-const createdHealthcareTable = new CreateFilteredTable(
-  healthcareTableBody,
-  trumpMoversData,
-  "trump-movers"
-);
-
-trumpMoversData = createdHealthcareTable.updateData(
-  trumpMoversData,
-  "changePercent"
-);
-createdHealthcareTable.drawTable(trumpMoversData);
-createdHealthcareTable.addEventOnTrs()
-
-const healthcareTh = document.querySelectorAll(".healthcare th");
-
-healthcareTh.forEach((item) => {
-  item.addEventListener("click", (e) => {
-    removeImages(healthcareTh);
-    createdHealthcareTable.orderPortfolio(e);
-  });
-});
-
-const AIBetsTableBody = document.querySelector(".ai__bets tbody");
-const createdAIBetsTable = new CreateFilteredTable(
-  AIBetsTableBody,
-  trumpMoversData,
-  "trump-movers"
-);
-
-trumpMoversData = createdAIBetsTable.updateData(
-  trumpMoversData,
-  "changePercent"
-);
-createdAIBetsTable.drawTable(trumpMoversData);
-createdAIBetsTable.addEventOnTrs()
-
-const AIBetsTh = document.querySelectorAll(".ai__bets th");
-
-AIBetsTh.forEach((item) => {
-  item.addEventListener("click", (e) => {
-    removeImages(AIBetsTh);
-    createdAIBetsTable.orderPortfolio(e);
-  });
-});
 
 const cashTableTds = document.querySelectorAll(".cash__tab tbody tr");
 const trumpTableTds = document.querySelectorAll(".trump__tab tbody tr");
@@ -717,6 +607,10 @@ function removeImages(list) {
     }
   });
 }
+
+
+// these functions utilized for create random numbers at header
+
 function createRandomDigit() {
   return Math.floor(Math.random() * 5) + 1;
 }
