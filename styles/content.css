@@ -1,5 +1,6 @@
 
 .content{
+	overflow-y: auto;
 	width: 66%;
 	display: flex; 
 	flex-direction: column;

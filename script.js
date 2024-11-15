@@ -363,9 +363,8 @@ class CreateFilteredTable {
 			this.addEventOnTr(row);
 			row.addEventListener("click", () => {
 				editMarketChart(createChartData(56, 65), createChartEvents(), 56, 65);
-				
-				removeActive(thtr, "row_active");
 				removeActive(cashTableTds, "row_active");
+				removeActive(trumpTableTds, "row_active");
 				row.classList.add("row_active");
 			});
 		})
@@ -377,7 +376,8 @@ class CreateFilteredTable {
           editMarketChart(createChartData(56, 65), createChartEvents(), 56, 65);
 					
           removeActive(document.querySelectorAll('.thead_tr'), "row_active");
-          removeActive(cashTableTds, "row_active");
+					removeActive(cashTableTds, "row_active");
+					removeActive(trumpTableTds, "row_active");
           row.classList.add("row_active");
         });
       });
@@ -386,7 +386,9 @@ class CreateFilteredTable {
         this.addEventOnTr(row);
         row.addEventListener("click", () => {
           editMarketChart(createChartData(56, 65), null, 56, 65);
-          removeActive(trumpTableTds, "row_active");
+          removeActive(document.querySelectorAll('.thead_tr'), "row_active");
+					removeActive(cashTableTds, "row_active");
+					removeActive(trumpTableTds, "row_active");
           row.classList.add("row_active");
         });
       });
@@ -403,6 +405,7 @@ class CreateFilteredTable {
       overlay.appendChild(button);
       row.appendChild(overlay);
       overlay.style.display = "flex";
+			console.log(3)
     });
 		row.addEventListener("mouseleave", () => {
 			let overlay = row.querySelector(".hover-overlay");

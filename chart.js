@@ -176,7 +176,6 @@ class DrawChart {
         
             pointBackgroundColor: 'transparent',
             pointBorderColor: 'transparent',
-            tension: 0.2,
             
             backgroundColor: (q,w) => {
               var gradientFill = this.ctx.createLinearGradient(
@@ -870,11 +869,10 @@ const secondChartEvent = [
   },
 ]
 
-const newPerformanceChart = new DrawChart(performanceChart, performanceChartCtx, secondData, secondChartEvent, 0, 40, 'performance')
-
-newPerformanceChart.returnChart()
+let newPerformanceChart = new DrawChart(performanceChart, performanceChartCtx, secondData, secondChartEvent, 0, 40, 'performance')
 
 newPerformanceChart.drawCart()
+newPerformanceChart.returnChart()
 
 
 
@@ -930,10 +928,10 @@ function createChartEvents() {
 
 
 function editMarketChart(data, events, minY, maxY) {
-  newMarketChart.returnChart().destroy()
+  newPerformanceChart.returnChart().destroy()
 
-  newMarketChart = new DrawChart(marketChart, marketChartCtx, data, events, minY, maxY , 'market')
-  newMarketChart.drawCart()
+  newPerformanceChart = new DrawChart(performanceChart, performanceChartCtx, data, events, minY, maxY , 'market')
+  newPerformanceChart.drawCart()
 }
 
 

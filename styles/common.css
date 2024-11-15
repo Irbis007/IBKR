@@ -20,6 +20,7 @@ body{
 
 main{
 	display: flex;
-	align-self: flex-start
+	align-self: flex-start;
+	height: calc(100vh - 40px - 28px);
 }
 

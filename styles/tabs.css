@@ -51,7 +51,7 @@
 }
 
 .tab__content_active{
-	height: 100%;
+	height: max-content;
 }
 
 .summary__tab .tab__buttons{
