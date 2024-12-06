@@ -50,7 +50,7 @@
 
 .articles__tab-content{
 	display: grid;
-	grid-template-columns: repeat(2, minmax(210px, 150px));
+	grid-template-columns: repeat(2, minmax(280px, 150px));
 	justify-content: space-between;
 }
 
@@ -128,6 +128,12 @@
 	.articles__tab-item:not(:first-child){
 		margin-top: 20px;
 	}
+}
+
+#portfolio-summary{
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--text-gray-color);
 }
 
 @media (max-width: 1440px) {

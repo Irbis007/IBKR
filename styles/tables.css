@@ -1,7 +1,8 @@
 .table{
 	width: 100%;
-	border-bottom: 1px solid var(--border-color);
+	border-bottom: 2px solid var(--border-color);
 }
+
 
 .table :is(td, th){
 	text-align: end;
@@ -14,14 +15,16 @@
 	cursor: pointer;
 	user-select: none;
 	text-wrap: nowrap;
+
 }
+
 
 .table :is(td, th):first-child{
 	text-align: start;
 	padding-left: 8px;
 }
 
-:is(.portfolio, .unrealized__PL, .realized__PL, .lots, .traders, .orders) :is(td, th):last-child{
+.cash__tab :is(td, th):last-child{
 	padding-right: 16px;
 }
 
@@ -36,6 +39,8 @@
 
 .table tr{
 	border-bottom: 1px solid var(--bg-color);
+	transform: translate(0);
+	clip-path: inset(0);
 }
 
 .table thead .thead_tr{ 
@@ -57,7 +62,7 @@
 	box-shadow: inset 0 0 0 2px rgba(20, 110, 176, 1), 0 0 10px 4px #146EB033;
 }
 
-:is(.trump-movers, .healthcare, .ai__bets) :is(td, th):last-child{
+.trump__tab :is(td, th):last-child{
 	padding-right: 56px;
 }
 
@@ -83,7 +88,7 @@
 	border-bottom: 1px solid var(--border-color);
 }
 
-:is(.trump-movers, .healthcare, .ai__bets, .portfolio, .unrealized__PL, .realized__PL, .lots, .traders, .orders) tbody tr{
+.trump__tab tbody tr{
 	transform: translate(0);
 	clip-path: inset(0);
 	cursor: pointer;
@@ -121,4 +126,5 @@
 		font-size: 11px;
 	}
 }
+
 

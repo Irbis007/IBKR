@@ -18,6 +18,66 @@ body{
 	color: var(--text-red-color);
 }
 
+.table__overflow{
+	position: absolute;
+	inset: 0;
+	background: rgba(0,0,0, .2);
+	z-index: 100;
+}
+
+.spinner {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 2px solid var(--border-color);
+	border-right: 2px solid var(--text-main-color);
+	animation: tableSpinner 1s infinite;
+	z-index: 100;
+}
+
+.skeleton-box {
+  display: inline-block;
+  height: 1em;
+  position: relative;
+  overflow: hidden;
+  background-color: #dddbdd13;
+}
+
+.skeleton-box::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	height: 100%;
+	width: 4px;
+	transform: translateX(-100%);
+	background-color: #ffffff52;
+	box-shadow:1px 1px 15px #fff;
+	animation: shimmer 1s infinite;
+	z-index: 100;
+}
+
+
+@keyframes shimmer {
+	100% {
+		left:100%;
+	}
+}
+
+@keyframes tableSpinner {
+	0%{
+		transform: rotate(0deg);
+	}
+	100%{
+		transform: rotate(360deg);
+	}
+}
+
 main{
 	display: flex;
 	align-self: flex-start;
